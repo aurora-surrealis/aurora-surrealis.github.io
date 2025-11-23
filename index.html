@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<!-- ===============================
-     Google GA4 + Consent Mode Setup
-     =============================== -->
-
-<!-- 1. dataLayer & gtag definieren -->
+<!-- Google Analytics 4 mit Consent Mode -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
 </script>
 
-<!-- 2. GA4 gtag.js laden -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=	G-V6CQ1V7FF3"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V6CQ1V7FF3"></script>
 
-<!-- 3. Standard Consent auf denied setzen + wait_for_update -->
 <script>
   gtag('consent', 'default', {
     'ad_storage': 'denied',
@@ -24,34 +18,14 @@
     'wait_for_update': 500
   });
 
-  // GA4 initialisieren (erst nach dem Consent Default)
   gtag('js', new Date());
-  gtag('config', '	G-V6CQ1V7FF3');
-</script>
-
-<!-- 4. Update-Funktion für Banner -->
-<script>
-  function allConsentGranted() {
-    gtag('consent', 'update', {
-      'ad_storage': 'granted',
-      'ad_user_data': 'granted',
-      'ad_personalization': 'granted',
-      'analytics_storage': 'granted'
-    });
-  }
+  gtag('config', 'G-V6CQ1V7FF3');
 </script>
 
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<title>Aurora Surrealis — Black/Death Metal from Freiburg. Dark, intense and atmospheric. 🎵</title>
-	
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://plausible.io/js/pa-h9N2812SCzpeljRa4VG4D.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
 		
 	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
@@ -63,7 +37,6 @@
 	--text-soft: rgba(210,210,215,0.9);
 }
 
-/* Grundstyles */
 html, body {
 	scroll-behavior: smooth;
 	min-height: 100vh;
@@ -72,10 +45,9 @@ html, body {
 	background: linear-gradient(180deg,#030305 0%,var(--bg-dark) 60%);
 	color: var(--text-soft);
 	overflow-x: hidden;
-	overflow-y: visible;
 }
 
-/* Menüleiste oben */
+/* Menüleiste */
 .menu-bar {
 	position: fixed;
 	top: -60px;
@@ -92,11 +64,10 @@ html, body {
 	padding: 0 20px;
 	box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 	border-bottom: 1px solid rgba(46, 232, 143, 0.1);
-	overflow: visible;
 }
 
 .menu-bar.active {
-	top: 0;  /* fährt ins Bild */
+	top: 0;
 }
 
 .menu-header {
@@ -116,44 +87,6 @@ html, body {
 	left: 20px;
 }
 
-.menu-toggle {
-	position: fixed;      /* fixiert den Button im Viewport */
-	top: 18px;            /* Abstand von oben */
-	right: 20px;          /* Abstand von rechts */
-	width: 32px;
-	height: 26px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	cursor: pointer;
-	z-index: 2000;        /* über allen Menü-Elementen */
-	pointer-events: auto;
-	background: none;     /* kein Hintergrund */
-	border: none;         /* keine Border */
-}
-
-
-.menu-toggle span {
-	display: block;
-	width: 100%;
-	height: 4px;           /* etwas dicker, sichtbar genug */
-	background: var(--aurora-green);
-	border-radius: 2px;
-	transition: all 0.3s ease;
-}
-
-
-
-
-.menu-toggle.active span:nth-child(2) {
-	opacity: 0;
-}
-
-.menu-toggle.active span:nth-child(3) {
-	transform: rotate(-45deg) translateY(-9px);
-}
-
-/* Menü Links horizontal in der Mitte */
 .menu-links {
 	position: absolute;
 	left: 50%;
@@ -199,6 +132,33 @@ html, body {
 	width: 80%;
 }
 
+/* Burger Button */
+.burger {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.burger div {
+  width: 100%;
+  height: 4px;
+  background: rgba(46,232,143,0.85);
+  border-radius: 4px;
+  transition: 0.35s ease;
+  box-shadow: 0 0 10px rgba(46,232,143,0.5);
+}
+
+.burger.active div:nth-child(1) { transform: translateY(11px) rotate(45deg); }
+.burger.active div:nth-child(2) { opacity: 0; }
+.burger.active div:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
 
 /* Aurora Canvas */
 #aurora {
@@ -213,7 +173,6 @@ html, body {
 	opacity:0.95;
 }
 
-/* Green Glow Canvas */
 #green-glow {
 	position: fixed;
 	inset: 0;
@@ -226,7 +185,6 @@ html, body {
 	filter: blur(90px);
 }
 
-/* Grain Overlay */
 .grain{
 	position:fixed;
 	inset:0;
@@ -246,9 +204,10 @@ html, body {
 	flex-direction:column;
 	align-items:center;
 	justify-content:flex-start;
-	padding-top:108px; /* Mehr Platz wegen Menüleiste */
+	padding-top:108px;
 	pointer-events:none;
 }
+
 .logo-img {
 	width:800px;
 	max-width:86vw;
@@ -266,6 +225,26 @@ html, body {
 	50%{transform:translateY(-14px)}
 	100%{transform:translateY(-6px)}
 }
+
+@keyframes pulseGlow {
+	0% {
+		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
+			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
+	}
+	50% {
+		filter: drop-shadow(0 0 16px rgba(0,255,136,0.45))
+			 		drop-shadow(0 0 28px rgba(0,255,136,0.32));
+	}
+	100% {
+		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
+			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
+	}
+}
+
+.logo-img:hover {
+	transform: scale(1.05);
+}
+
 .slogan{
 	margin-top:50px;
     margin-bottom: 100px;
@@ -276,26 +255,25 @@ html, body {
 	pointer-events:none;
 	text-align: center;
 }
+
 .linebreak {
 	display: block;
 }
 
-/* Allgemeine Sektions-Titel (Zurück zu Cinzel) */
 .section-title {
-	font-family: "Cinzel", serif; /* Zurück zu Cinzel, wie gewünscht */
-	font-size: 2.4rem; /* Leicht vergrößert für besseren Eindruck */
-	font-weight: 700; /* Cinzel fett */
+	font-family: "Cinzel", serif;
+	font-size: 2.4rem;
+	font-weight: 700;
 	color: var(--aurora-green);
 	text-align: center;
-	margin-top: 100px; /* Separation von vorherigem Inhalt */
+	margin-top: 100px;
 	margin-bottom: 50px;
-	text-shadow: 0 0 10px rgba(46, 232, 143, 0.8), 0 0 20px rgba(46, 232, 143, 0.3); /* Etwas stärkerer Glow */
-	letter-spacing: 2px; /* Mehr Abstand zwischen Buchstaben für Eleganz */
-	padding-top: 60px; /* Nötig für Anker-Link, um nicht unter der Menüleiste zu verschwinden */
-	margin-top: -60px; /* Offset des Padding */
+	text-shadow: 0 0 10px rgba(46, 232, 143, 0.8), 0 0 20px rgba(46, 232, 143, 0.3);
+	letter-spacing: 2px;
+	padding-top: 60px;
+	margin-top: -60px;
 }
 
-/* Center grid */
 .stage{
 	position:relative;
 	z-index:3;
@@ -308,7 +286,7 @@ html, body {
 	box-sizing:border-box;
 }
 
-/* Gigs Section Styling */
+/* Gigs Section */
 .gig-list {
 	display: flex;
 	flex-direction: column;
@@ -339,7 +317,7 @@ html, body {
 }
 
 .gig-date {
-	font-family: "Cinzel", serif; /* Cinzel für das Datum beibehalten, da es gut aussieht */
+	font-family: "Cinzel", serif;
 	text-align: center;
 	flex-shrink: 0;
 	width: 100px;
@@ -379,26 +357,7 @@ html, body {
 	margin: 0;
 }
 
-@media (max-width: 600px) {
-	.gig-card {
-		flex-direction: column;
-		text-align: center;
-	}
-	.gig-date {
-		width: auto;
-		margin-right: 0;
-		margin-bottom: 15px;
-		padding-right: 0;
-		border-right: none;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-		padding-bottom: 15px;
-	}
-	.gig-info h4 {
-			font-size: 1.2rem;
-	}
-}
-
-/* Band Section (Cards) */
+/* Band Cards */
 .cards {
 	margin-top: 28px;
     margin-bottom: 100px;
@@ -406,24 +365,6 @@ html, body {
 	grid-template-columns: repeat(6, 1fr);
 	gap: 28px;
 	justify-items: center;
-}
-
-@media (max-width: 1060px) {
-	.cards {
-		grid-template-columns: repeat(3, 1fr);
-	}
-}
-
-@media (max-width: 720px) {
-	.cards {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media (max-width: 480px) {
-	.cards {
-		grid-template-columns: 1fr;
-	}
 }
 
 .card{
@@ -464,12 +405,14 @@ html, body {
 	color:#fff;
 	text-shadow:0 0 8px rgba(0,0,0,0.5);
 }
+
 .card span{
 	display:block;
 	margin-top:6px;
 	font-size:0.88rem;
 	color:rgba(200,240,220,0.9);
 }
+
 .card:before{
 	content:"";
 	position:absolute;
@@ -481,13 +424,16 @@ html, body {
 	opacity:0;
 	transition:opacity 0.35s;
 }
+
 .card:hover{
 	transform:translateY(-10px) scale(1.02);
 	box-shadow:0 18px 60px rgba(0,0,0,0.7),0 0 80px rgba(59,255,154,0.08);
 }
+
 .card:hover:before{
 	opacity:1;
 }
+
 .card .role{
 	font-size:0.85rem;
 	color:rgba(200,255,230,0.9);
@@ -504,7 +450,7 @@ html, body {
 	filter: blur(3px);
 }
 
-/* Social fixed */
+/* Social */
 .social-fixed {
 	display: flex;
 	justify-content: center;
@@ -538,29 +484,16 @@ html, body {
 	transform: scale(1.05);
 }
 
-@keyframes pulseGlow {
-	0% {
-		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
-			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
-	}
-	50% {
-		filter: drop-shadow(0 0 16px rgba(0,255,136,0.45))
-			 		drop-shadow(0 0 28px rgba(0,255,136,0.32));
-	}
-	100% {
-		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
-			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
-	}
-}
-
-.logo-img:hover {
-	transform: scale(1.05);
-}
-
+/* Videos */
 .video-section {
   margin-top: 40px;
   margin-bottom: 100px;
   text-align: center;
+}
+
+.video-section h2 {
+	font-family: "Montserrat", sans-serif;
+	margin-bottom: 20px;
 }
 
 .video-section iframe {
@@ -571,96 +504,49 @@ html, body {
   box-shadow: 0 0 20px rgba(0, 255, 150, 0.3);
 }
 
-.video-container {
-  position: relative;
-  width: 90%;
-  max-width: 800px;
-  margin: 40px auto;
-  aspect-ratio: 16 / 9;
-  box-shadow: 0 0 40px rgba(0, 255, 136, 0.25);
-  border-radius: 12px;
-  overflow: hidden;
+/* Mobile Responsive */
+@media (max-width: 1060px) {
+	.cards {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
-.video-container iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  border: none;
-}
-
-/* Burger Button */
-.burger {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  width: 32px;
-  height: 26px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  z-index: 9999;
-  pointer-events: auto;
-}
-.burger div {
-  width: 100%;
-  height: 4px;
-  background: rgba(46,232,143,0.85);
-  border-radius: 4px;
-  transition: 0.35s ease;
-  box-shadow: 0 0 10px rgba(46,232,143,0.5);
-}
-
-/* Burger X Animation */
-.burger.active div:nth-child(1) { transform: translateY(11px) rotate(45deg); }
-.burger.active div:nth-child(2) { opacity: 0; }
-.burger.active div:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
-
-/* Smartphones: Logo & Menü anpassen */
 @media (max-width: 768px) {
-
-  /* Logo oben mittig, alles in einer Zeile */
   .menu-logo {
     position: fixed;
-    top: 12px; /* genug Abstand, damit es nicht abgeschnitten wird */
+    top: 12px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1.3rem; /* kleiner als Desktop */
-    white-space: nowrap; /* verhindert Zeilenumbruch */
+    font-size: 1.3rem;
+    white-space: nowrap;
     text-align: center;
     z-index: 2000;
   }
 
-  /* Burger rechts oben */
-  .menu-toggle {
+  .burger {
     top: 12px;
     right: 20px;
   }
 
-  /* Menü-Links vertikal darunter, mittig */
   .menu-links {
     flex-direction: column;
     gap: 1.5rem;
     position: fixed;
-    top: 50px; /* unterhalb des Logos */
+    top: 50px;
     left: 0;
     right: 0;
     background: rgba(10, 10, 26, 0.95);
     backdrop-filter: blur(12px);
     padding: 20px 0;
-    align-items: center;  /* horizontal zentrieren */
+    align-items: center;
     justify-content: flex-start;
     transform: translateY(-100%);
     transition: transform 0.4s ease;
     pointer-events: none;
     z-index: 1500;
-    text-align: center;   /* Links zentrieren */
+    text-align: center;
   }
 
-  /* Menü beim aktiven Zustand */
   .menu-bar.active .menu-links {
     transform: translateY(0);
     pointer-events: all;
@@ -669,14 +555,49 @@ html, body {
   .menu-links a {
     font-size: 1.3rem;
     padding: 10px 20px;
-    white-space: nowrap; /* verhindert Umbruch */
+    white-space: nowrap;
+  }
+
+  .video-section iframe {
+    height: 45vh;
   }
 }
 
+@media (max-width: 720px) {
+	.cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.gig-card {
+		flex-direction: column;
+		text-align: center;
+	}
+	.gig-date {
+		width: auto;
+		margin-right: 0;
+		margin-bottom: 15px;
+		padding-right: 0;
+		border-right: none;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		padding-bottom: 15px;
+	}
+	.gig-info h4 {
+		font-size: 1.2rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.cards {
+		grid-template-columns: 1fr;
+	}
+}
 	</style>
 </head>
 <body>
 
+<!-- Consent Banner -->
 <div id="consentBanner" style="
   position: fixed;
   bottom: 30px;
@@ -722,8 +643,150 @@ html, body {
   </div>
 </div>
 
+<!-- Burger Menu -->
+<div class="burger" id="burgerMenu">
+  <div></div><div></div><div></div>
+</div>
+
+<!-- Menu Bar -->
+<div class="menu-bar" id="menuBar">
+	<div class="menu-logo">Aurora Surrealis</div>
+	<nav class="menu-links">
+		<a href="#home">Home</a>
+		<a href="#band">Band</a>
+		<a href="#videos">Videos</a>
+		<a href="#gigs">Gigs</a>
+		<a href="#social">Social Media</a>
+	</nav>
+</div>
+
+<canvas id="aurora"></canvas>
+<canvas id="green-glow"></canvas>
+<canvas id="particles"></canvas>
+
+<div class="grain"></div>
+
+<div class="hero-wrap" id="home">
+	<img src="Aktuell.png" alt="Aurora Surrealis Logo" class="logo-img" />
+	<div class="slogan">
+		Black/Death Metal from Freiburg.<span class="linebreak"></span>Dark, intense and atmospheric.
+	</div>
+</div>
+
+<main class="stage" role="main">
+	
+	<!-- Band Section -->
+	<section class="band-section">
+		<h3 class="section-title" id="band">The Band</h3>
+		
+		<div class="cards">
+			<div class="card" data-instagram="https://www.instagram.com/patti_pat_pat93">
+				<img src="patricia.jpg" alt="Patricia Korpel" class="member-img" />
+				<h4>Patricia Korpel</h4>
+				<span class="role">Vocals</span>
+			</div>
+
+			<div class="card" data-instagram="https://www.instagram.com/ciaran_terrawave">
+				<img src="ciaran.jpg" alt="Ciarán Steger-Hoey" class="member-img" />
+				<h4>Ciarán Steger-Hoey</h4>
+				<span class="role">Vocals</span>
+			</div>
+
+			<div class="card" data-instagram="https://www.instagram.com/flowalze">
+				<img src="flo.jpg" alt="Florian Lindner" class="member-img" />
+				<h4>Florian Lindner</h4>
+				<span class="role">Guitar</span>
+			</div>
+
+			<div class="card" data-instagram="https://www.instagram.com/lukash_egghead">
+				<img src="lukas.jpg" alt="Lukas Kowolik" class="member-img" />
+				<h4>Lukas Kowolik</h4>
+				<span class="role">Guitar</span>
+			</div>
+
+			<div class="card" data-instagram="https://www.instagram.com/_joo666_">
+				<img src="johannes.jpg" alt="Johannes Frei" class="member-img" />
+				<h4>Johannes Frei</h4>
+				<span class="role">Bass</span>
+			</div>
+
+			<div class="card" data-instagram="https://www.instagram.com/jo_hier512">
+				<img src="joachim.jpg" alt="Joachim Hierholzer" class="member-img" />
+				<h4>Joachim Hierholzer</h4>
+				<span class="role">Drums</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- Videos Section -->
+	<section class="video-section">
+		<h3 class="section-title" id="videos">Videos</h3>
+		
+		<h2>Fogbound</h2>
+		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qEWt_lilDC0" title="Fogbound" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		
+		<h2 style="margin-top: 60px;">Siren's Call</h2>
+		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Kbez7b4kLoY" title="Siren's Call" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</section>
+	
+	<!-- Gigs Section -->
+	<section class="gigs-section">
+		<h3 class="section-title" id="gigs">Upcoming Gigs</h3>
+
+		<div class="gig-list">
+			<div class="gig-card" onclick="window.open('https://www.wacken.com/en/line-up/bands/', '_blank')">
+				<div class="gig-date">
+					<div class="day">-</div>
+					<div class="month">TBA</div>
+				</div>
+				<div class="gig-info">
+					<h4>Stay tuned!</h4>
+					<p>More Gigs Coming Soon</p>
+				</div>
+			</div>
+
+			<div class="gig-card" onclick="window.open('https://www.party-san.de/bands-2026', '_blank')">
+				<div class="gig-date">
+					<div class="day">-</div>
+					<div class="month">TBA</div>
+				</div>
+				<div class="gig-info">
+					<h4>Stay tuned!</h4>
+					<p>More Gigs Coming Soon</p>
+				</div>
+			</div>
+
+			<div class="gig-card" onclick="window.open('https://www.summer-breeze.de/de/bands', '_blank')">
+				<div class="gig-date">
+					<div class="day">-</div>
+					<div class="month">TBA</div>
+				</div>
+				<div class="gig-info">
+					<h4>Stay tuned!</h4>
+					<p>More Gigs Coming Soon</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Social Section -->
+	<section id="social" class="social-section">
+		<h3 class="section-title">Follow Us</h3>
+
+		<div class="social-fixed">
+			<a href="https://app.backstagepro.de/aurora-surrealis" target="_blank">BackstagePro</a>
+			<a href="https://aurorasurrealis.bandcamp.com/track/fogbound" target="_blank">Bandcamp</a>
+			<a href="https://soundcloud.com/aurora-surrealis-59396302" target="_blank">SoundCloud</a>
+			<a href="https://www.instagram.com/aurorasurrealisband" target="_blank">Instagram</a>
+			<a href="https://www.youtube.com/@AuroraSurrealis-pd2md" target="_blank">YouTube</a>
+			<a href="https://linktr.ee/aurorasurrealisband" target="_blank">Linktree</a>
+		</div>
+	</section>
+
+</main>
+
 <script>
-// Prüfen, ob Nutzer schon eine Entscheidung getroffen hat
+// Consent Banner Logic
 let savedConsent = localStorage.getItem('consentMode');
 
 if(savedConsent === 'granted') {
@@ -735,16 +798,9 @@ if(savedConsent === 'granted') {
   });
   document.getElementById('consentBanner').style.display = 'none';
 } else if(savedConsent === 'denied') {
-  gtag('consent', 'update', {
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'analytics_storage': 'denied'
-  });
   document.getElementById('consentBanner').style.display = 'none';
 }
 
-// Wenn Nutzer klickt
 document.getElementById('acceptBtn').onclick = function() {
   gtag('consent', 'update', {
     'ad_storage': 'granted',
@@ -752,204 +808,45 @@ document.getElementById('acceptBtn').onclick = function() {
     'ad_personalization': 'granted',
     'analytics_storage': 'granted'
   });
-  localStorage.setItem('consentMode', 'granted'); // speichert Entscheidung
+  localStorage.setItem('consentMode', 'granted');
   document.getElementById('consentBanner').style.display = 'none';
 };
 
 document.getElementById('declineBtn').onclick = function() {
-  gtag('consent', 'update', {
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'analytics_storage': 'denied'
-  });
-  localStorage.setItem('consentMode', 'denied'); // speichert Entscheidung
+  localStorage.setItem('consentMode', 'denied');
   document.getElementById('consentBanner').style.display = 'none';
 };
-</script>
 
-<!-- Burger -->
-<div class="burger" id="burgerMenu">
-  <div></div><div></div><div></div>
-</div>
-
-	<!-- Menüleiste (Bereinigt) -->
-	<div class="menu-bar" id="menuBar">
-		<div class="menu-logo">Aurora Surrealis</div>
-		<nav class="menu-links">
-			<a href="#home">Home</a>
-			<a href="#band">Band</a>
-			<a href="#videos">Videos</a>
-			<a href="#gigs">Gigs</a>
-			<a href="#social">Social Media</a>
-		</nav>
-		
-	</div>
-
-	<canvas id="aurora"></canvas>
-	<canvas id="green-glow"></canvas>
-	<canvas id="particles"></canvas>
-
-	<div class="grain"></div>
-
-	<div class="hero-wrap" id="home">
-		<img src="Aktuell.png" alt="Aurora Surrealis Logo" class="logo-img" />
-		<div class="slogan">
-			Black/Death Metal from Freiburg.<span class="linebreak"></span>Dark, intense and atmospheric.
-		</div>
-	</div>
-
-	<main class="stage" role="main">
-		
-		<!-- Band Section -->
-		<section class="band-section">
-			<h3 class="section-title"id="band">The Band</h3> <!-- Titel für die Band-Sektion -->
-			
-			<div class="cards">
-				<div class="card" data-member="Patricia Korpel" data-instagram="https://www.instagram.com/patti_pat_pat93">
-					<img src="patricia.jpg" alt="Patricia Korpel" class="member-img" />
-					<h4>Patricia Korpel</h4>
-					<span class="role">Vocals</span>
-				</div>
-
-				<div class="card" data-member="Ciarán Steger-Hoey" data-instagram="https://www.instagram.com/ciaran_terrawave">
-					<img src="ciaran.jpg" alt="Ciarán Steger-Hoey" class="member-img" />
-					<h4>Ciarán Steger-Hoey</h4>
-					<span class="role">Vocals</span>
-				</div>
-
-				<div class="card" data-member="Florian Lindner" data-instagram="https://www.instagram.com/flowalze">
-					<img src="flo.jpg" alt="Florian Lindner" class="member-img" />
-					<h4>Florian Lindner</h4>
-					<span class="role">Guitar</span>
-				</div>
-
-				<div class="card" data-member="Lukas Kowolik" data-instagram="https://www.instagram.com/lukash_egghead">
-					<img src="lukas.jpg" alt="Lukas Kowolik" class="member-img" />
-					<h4>Lukas Kowolik</h4>
-					<span class="role">Guitar</span>
-				</div>
-
-				<div class="card" data-member="Johannes Frei" data-instagram="https://www.instagram.com/_joo666_">
-					<img src="johannes.jpg" alt="Johannes Frei" class="member-img" />
-					<h4>Johannes Frei</h4>
-					<span class="role">Bass</span>
-				</div>
-
-				<div class="card" data-member="Joachim Hierholzer" data-instagram="https://www.instagram.com/jo_hier512">
-					<img src="joachim.jpg" alt="Joachim Hierholzer" class="member-img" />
-					<h4>Joachim Hierholzer</h4>
-					<span class="role">Drums</span>
-				</div>
-			</div>
-		</section>
-		<!-- Ende Band Section -->
-
-
-		<div class="video-section">
-			<h3 class="section-title" id="videos">Videos</h3> <!-- Titel für die Band-Sektion -->
-    <h2>Fogbound</h2>
-    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qEWt_lilDC0?si=LwX6Sa5mBzhwhZ6E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </div>
-
-  <div class="video-section">
-    <h2>Siren's Call</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/Kbez7b4kLoY?si=QOyRLARxHwgXVWuD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </div>
-		
-		<!-- Gigs Section -->
-		<section class="gigs-section">
-			<h3 class="section-title"id="gigs">Upcoming Gigs</h3>
-
-			<div class="gig-list">
-
-				<div class="gig-card" onclick="window.open('https://www.wacken.com/en/line-up/bands/#/bandfilter', '_blank')">
-					<div class="gig-date">
-						<div class="day">-</div>
-						<div class="month">TBA</div>
-					</div>
-					<div class="gig-info">
-						<h4>Stay tuned!</h4>
-						<p>More Gigs Coming Soon</p>
-					</div>
-				</div>
-
-				<div class="gig-card" onclick="window.open('https://www.party-san.de/bands-2026', '_blank')">
-					<div class="gig-date">
-						<div class="day">-</div>
-						<div class="month">TBA</div>
-					</div>
-					<div class="gig-info">
-						<h4>Stay tuned!</h4>
-						<p>More Gigs Coming Soon</p>
-					</div>
-				</div>
-
-				<div class="gig-card" onclick="window.open('https://www.summer-breeze.de/de/bands', '_blank')">
-					<div class="gig-date">
-						<div class="day">-</div>
-						<div class="month">TBA</div>
-					</div>
-					<div class="gig-info">
-						<h4>Stay tuned!</h4>
-						<p>More Gigs Coming Soon</p>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Ende Gigs Section -->
-
-
-		<section id="social" class="social-section">
-  <h3 class="section-title">Follow Us</h3>
-
-  <div class="social-fixed">
-    <a href="https://app.backstagepro.de/aurora-surrealis" target="_blank">BackstagePro</a>
-    <a href="https://aurorasurrealis.bandcamp.com/track/fogbound" target="_blank">Bandcamp</a>
-    <a href="https://soundcloud.com/aurora-surrealis-59396302" target="_blank">SoundCloud</a>
-    <a href="https://www.instagram.com/aurorasurrealisband" target="_blank">Instagram</a>
-    <a href="https://www.youtube.com/@AuroraSurrealis-pd2md" target="_blank">YouTube</a>
-    <a href="https://linktr.ee/aurorasurrealisband" target="_blank">Linktree</a>
-  </div>
-</section>
-
-
-	</main>
-
-<script>
-// Sidebar & Burger
-
+// Menu Toggle
 const burger = document.getElementById('burgerMenu');
 const menuBar = document.getElementById('menuBar');
 
 burger.addEventListener('click', () => {
-	burger.classList.toggle('active');   // für das X-Icon
-	menuBar.classList.toggle('active');  // Menü fährt raus/weg
+	burger.classList.toggle('active');
+	menuBar.classList.toggle('active');
 });
 
-// Smooth Scroll + Sidebar schließen
-document.querySelectorAll('.sidebar a').forEach(link => {
+// Smooth Scroll & Close Menu
+document.querySelectorAll('.menu-links a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if(target) target.scrollIntoView({ behavior: 'smooth' });
-    sidebar.classList.remove('active');
+    menuBar.classList.remove('active');
     burger.classList.remove('active');
   });
 });
 
-	// Band Card Instagram Click
-	document.querySelectorAll('.card').forEach(card => {
-		card.addEventListener('click', () => {
-			const instaUrl = card.getAttribute('data-instagram');
-			if(instaUrl) {
-				window.open(instaUrl, '_blank');
-			}
-		});
+// Band Card Instagram Click
+document.querySelectorAll('.card').forEach(card => {
+	card.addEventListener('click', () => {
+		const instaUrl = card.getAttribute('data-instagram');
+		if(instaUrl) {
+			window.open(instaUrl, '_blank');
+		}
 	});
-</script>
+});
 
-<script>
 // Aurora Canvas Animation
 (function () {
 	const canvas = document.getElementById("aurora");
@@ -1003,7 +900,6 @@ document.querySelectorAll('.sidebar a').forEach(link => {
 		});
 
 		t += 0.002;
-
 		requestAnimationFrame(drawAurora);
 	}
 
@@ -1022,7 +918,6 @@ document.querySelectorAll('.sidebar a').forEach(link => {
 	
 	let w = canvas.width = window.innerWidth;
 	let h = canvas.height = window.innerHeight;
-	ctx.setTransform(1,0,0,1,0,0);
 
 	let offset = 0;
 
@@ -1062,7 +957,6 @@ document.querySelectorAll('.sidebar a').forEach(link => {
 	window.addEventListener('resize', ()=>{
 		w = canvas.width = window.innerWidth;
 		h = canvas.height = window.innerHeight;
-		ctx.setTransform(1,0,0,1,0,0);
 	});
 })();
 
