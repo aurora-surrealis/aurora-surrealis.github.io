@@ -688,8 +688,9 @@ background: #222;
 color: white;
 z-index: 99999;
 border-radius: 8px;
-max-width: 300px;
-margin: auto;
+max-width: 600px;   /* statt 300px, macht ihn breiter */
+margin: 0 auto;     /* zentriert ihn weiterhin */
+box-sizing: border-box; /* wichtig, damit Padding zur Breite zählt */
 ">
   <p>Diese Website verwendet Cookies für Analytics.</p>
   <button id="acceptBtn">OK</button>
