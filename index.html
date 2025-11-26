@@ -866,8 +866,6 @@ document.querySelectorAll('.menu-links a').forEach(link => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if(target) target.scrollIntoView({ behavior: 'smooth' });
-    menuBar.classList.remove('active');
-    burger.classList.remove('active');
   });
 });
 
