@@ -30,6 +30,17 @@
 	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 	<style>
+/* Container für die Partikel-Animation */
+#particles-js {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1; /* Liegt über dem Farbverlauf, aber unter eurem Text/Logo */
+	pointer-events: auto; /* Wichtig, damit die Maus die Punkte greifen kann */
+}
+
+		
 :root{
 	--bg-dark: #0a0a1a;
 	--neon-purple: #9b00e0;
@@ -745,6 +756,7 @@ html, body {
 	</style>
 </head>
 <body>
+<div id="particles-js"></div>
 
 <!-- Consent Banner -->
 <div id="consentBanner" style="
@@ -1207,6 +1219,70 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 </script>
+<!-- Particles.js Skript von einem sicheren Server laden -->
+<script src="https://jsdelivr.net"></script>
 
+<!-- Die Animation starten und mit Maus-Interaktivität einrichten -->
+<script>
+	particlesJS("particles-js", {
+		"particles": {
+			"number": {
+				"value": 45,
+				"density": { "enable": true, "value_area": 800 }
+			},
+			"color": { "value": "#2ee88f" },
+			"shape": { "type": "circle" },
+			"opacity": {
+				"value": 0.4,
+				"random": true,
+				"anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false }
+			},
+			"size": {
+				"value": 3,
+				"random": true,
+				"anim": { "enable": false }
+			},
+			"line_linked": {
+				"enable": true,
+				"distance": 150,
+				"color": "#2ee88f",
+				"opacity": 0.25,
+				"width": 1
+			},
+			"move": {
+				"enable": true,
+				"speed": 1.5,
+				"direction": "none",
+				"random": true,
+				"straight": false,
+				"out_mode": "out",
+				"bounce": false
+			}
+		},
+		"interactivity": {
+			"detect_on": "window",
+			"events": {
+				"onhover": {
+					"enable": true,
+					"mode": "grab"
+				},
+				"onclick": {
+					"enable": false
+				},
+				"resize": true
+			},
+			"modes": {
+				"grab": {
+					"distance": 180,
+					"line_linked": {
+						"opacity": 0.45
+					}
+				}
+			}
+		},
+		"retina_detect": true
+	});
+</script>
+	
 </body>
 </html>
