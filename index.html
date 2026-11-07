@@ -1163,12 +1163,25 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 
-// Particles Animation
+// Particles Animation (Fireflies mit Maus-Reaktion)
 (function(){
 	const canvas = document.getElementById('particles');
 	const ctx = canvas.getContext('2d');
 	let w = canvas.width = window.innerWidth;
 	let h = canvas.height = window.innerHeight;
+
+	// Maus-Position speichern
+	let mouse = { x: null, y: null };
+
+	window.addEventListener('mousemove', (e) => {
+		mouse.x = e.clientX;
+		mouse.y = e.clientY;
+	});
+
+	window.addEventListener('mouseleave', () => {
+		mouse.x = null;
+		mouse.y = null;
+	});
 
 	class Firefly {
 		constructor() {
@@ -1181,23 +1194,45 @@ document.querySelectorAll('.card').forEach(card => {
 			this.speed = Math.random() * 0.3 + 0.05;
 			this.alpha = Math.random() * 0.5 + 0.4;
 			this.angle = Math.random() * Math.PI * 2;
-			this.angularSpeed = (Math.random()-0.5) * 0.01;
+			this.angularSpeed = (Math.random() - 0.5) * 0.01;
 			this.color = `rgba(46,232,143,${this.alpha})`;
 		}
 		update() {
+			// Normale langsame Bewegung
 			this.angle += this.angularSpeed;
 			this.x += Math.cos(this.angle) * this.speed;
 			this.y += Math.sin(this.angle) * this.speed;
 
-			if(this.x > w) this.x = 0;
-			if(this.x < 0) this.x = w;
-			if(this.y > h) this.y = 0;
-			if(this.y < 0) this.y = h;
+			// Maus-Interaktion
+			if (mouse.x !== null && mouse.y !== null) {
+				const dx = mouse.x - this.x;
+				const dy = mouse.y - this.y;
+				const dist = Math.sqrt(dx * dx + dy * dy);
+
+				if (dist < 230) {
+					const force = (230 - dist) / 230;
+
+					// Sanft anziehen
+					this.x += dx * force * 0.018;
+					this.y += dy * force * 0.018;
+
+					// Leichtes Kreisen um die Maus
+					const angleToMouse = Math.atan2(dy, dx);
+					this.x += Math.cos(angleToMouse + Math.PI / 2) * force * 0.9;
+					this.y += Math.sin(angleToMouse + Math.PI / 2) * force * 0.9;
+				}
+			}
+
+			// Am Rand umwickeln
+			if (this.x > w) this.x = 0;
+			if (this.x < 0) this.x = w;
+			if (this.y > h) this.y = 0;
+			if (this.y < 0) this.y = h;
 		}
 		draw() {
 			ctx.fillStyle = this.color;
 			ctx.beginPath();
-			ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+			ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
 			ctx.fill();
 		}
 	}
@@ -1205,7 +1240,7 @@ document.querySelectorAll('.card').forEach(card => {
 	const fireflies = Array.from({length: 80}, () => new Firefly());
 
 	function animate() {
-		ctx.clearRect(0,0,w,h);
+		ctx.clearRect(0, 0, w, h);
 		fireflies.forEach(f => {
 			f.update();
 			f.draw();
@@ -1214,7 +1249,7 @@ document.querySelectorAll('.card').forEach(card => {
 	}
 	animate();
 
-	window.addEventListener('resize', ()=>{
+	window.addEventListener('resize', () => {
 		w = canvas.width = window.innerWidth;
 		h = canvas.height = window.innerHeight;
 	});
