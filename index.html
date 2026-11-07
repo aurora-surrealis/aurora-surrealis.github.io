@@ -47,7 +47,7 @@ html, body {
 	overflow-x: hidden;
 }
 
-/* Menüleiste */
+/* MENÜLEISTE */
 .menu-bar {
 	position: fixed;
 	top: -60px;
@@ -132,7 +132,7 @@ html, body {
 	width: 80%;
 }
 
-/* Burger Button */
+/* BURGER BUTTON */
 .burger {
   position: fixed;
   top: 18px;
@@ -159,6 +159,16 @@ html, body {
 .burger.active div:nth-child(1) { transform: translateY(11px) rotate(45deg); }
 .burger.active div:nth-child(2) { opacity: 0; }
 .burger.active div:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
+
+/* ANIMIERTER PLEXUS BACKGROUND */
+#particles-js {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1; /* Über dem Gradient-Verlauf, unter dem Inhalt */
+	pointer-events: none; /* Klicks gehen durch die Punkte hindurch auf die Buttons */
+}
 
 /* Aurora Canvas */
 #aurora {
@@ -196,7 +206,7 @@ html, body {
 	opacity:0.04;
 }
 
-/* Hero Logo */
+/* HERO LOGO */
 .hero-wrap{
 	position:relative;
 	z-index:4;
@@ -309,7 +319,7 @@ html, body {
 	box-sizing:border-box;
 }
 
-/* Gigs Section */
+/* GIGS SECTION */
 .gig-list {
 	display: flex;
 	flex-direction: column;
@@ -380,7 +390,7 @@ html, body {
 	margin: 0;
 }
 
-/* Booking Section */
+/* BOOKING SECTION */
 .booking-section {
 	margin-top: 40px;
 	margin-bottom: 100px;
@@ -423,790 +433,57 @@ html, body {
 	transform: translateY(-3px);
 	box-shadow: 0 0 35px rgba(46, 232, 143, 0.6);
 }
-
-.booking-mail {
-	margin-top: 18px !important;
-	font-size: 0.85rem !important;
-	color: rgba(200, 240, 220, 0.7) !important;
-}
-
-/* Band Cards */
-.cards {
-	margin-top: 28px;
-    margin-bottom: 100px;
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 28px;
-	justify-items: center;
-}
-
-.card{
-	width: 80vw;
-	max-width: 260px;
-	aspect-ratio: 260 / 160;
-	border-radius:16px;
-	background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-	backdrop-filter:blur(8px) saturate(120%);
-	box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 26px rgba(0,0,0,0.18);
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:center;
-	padding:16px;
-	box-sizing:border-box;
-	color:var(--text-soft);
-	text-align:center;
-	cursor:pointer;
-	transition:transform 0.45s cubic-bezier(.2,.9,.25,1),box-shadow 0.45s,background 0.4s;
-	position:relative;
-	overflow:visible;
-}
-
-.card .member-img {
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	object-fit: cover;
-	margin-bottom: 16px;
-	border: 2px solid rgba(46, 232, 143, 0.5);
-}
-
-.card h4{
-	margin:0;
-	font-family:"Cinzel",serif;
-	font-size:1.05rem;
-	color:#fff;
-	text-shadow:0 0 8px rgba(0,0,0,0.5);
-}
-
-.card span{
-	display:block;
-	margin-top:6px;
-	font-size:0.88rem;
-	color:rgba(200,240,220,0.9);
-}
-
-.card:before{
-	content:"";
-	position:absolute;
-	inset:-3px;
-	border-radius:18px;
-	background:linear-gradient(120deg, rgba(59,255,154,0.06), rgba(187,0,255,0.05));
-	z-index:-1;
-	filter:blur(10px);
-	opacity:0;
-	transition:opacity 0.35s;
-}
-
-.card:hover{
-	transform:translateY(-10px) scale(1.02);
-	box-shadow:0 18px 60px rgba(0,0,0,0.7),0 0 80px rgba(59,255,154,0.08);
-}
-
-.card:hover:before{
-	opacity:1;
-}
-
-.card .role{
-	font-size:0.85rem;
-	color:rgba(200,255,230,0.9);
-	letter-spacing:0.6px;
-}
-
-#particles {
-	position: fixed;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 3;
-	pointer-events: none;
-	filter: blur(3px);
-}
-
-/* Social */
-.social-fixed {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 1.2rem;
-    width: 100%;
-    padding: 1rem 0; /* mehr Abstand nach oben/unten */
-}
-
-.social-fixed a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%; /* jetzt komplett rund */
-    
-    /* Glas-Style */
-    background: rgba(255, 255, 255, 0.05); /* sehr transparent */
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    border: none;
-    
-    /* leichter Glow nach außen */
-    box-shadow: 0 4px 20px rgba(46, 232, 143, 0.08);
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.social-fixed a img {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-    filter: brightness(0.9);
-    transition: transform 0.3s ease, filter 0.3s ease, drop-shadow 0.3s ease;
-}
-
-.social-fixed a:hover {
-    transform: scale(1.15);
-    background: rgba(255, 255, 255, 0.08); /* etwas intensiver beim Hover */
-    box-shadow: 0 6px 25px rgba(46, 232, 143, 0.2);
-}
-
-.social-fixed a:hover img {
-    transform: scale(1.15);
-    filter: brightness(1.3) drop-shadow(0 0 8px rgba(46, 232, 143, 0.8));
-}
-
-/* Videos */
-.video-section {
-  margin-top: 40px;
-  margin-bottom: 100px;
-  text-align: center;
-}
-
-.video-section h2 {
-	font-family: "Montserrat", sans-serif;
-	margin-bottom: 20px;
-}
-
-.video-section iframe {
-  width: 80vw;
-  max-width: 1280px;
-  height: 720px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 150, 0.3);
-}
-
-/* Mobile Responsive */
-@media (max-width: 1060px) {
-    .cards {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Social Buttons – mittlere Screens */
-@media (max-width: 900px) {
-    .social-fixed a {
-        width: 62px;
-        height: 62px;
-    }
-    .social-fixed a img {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-/* Social Buttons – größere Smartphones */
-@media (max-width: 768px) {
-    .menu-logo {
-        position: fixed;
-        top: 12px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 1.3rem;
-        white-space: nowrap;
-        text-align: center;
-        z-index: 2000;
-    }
-
-    .burger {
-        top: 12px;
-        right: 20px;
-    }
-
-	.statement {
-    padding: 25px 25px;
-    font-size: 0.9rem;
-}
-
-    .menu-links {
-        flex-direction: column;
-        gap: 1.5rem;
-        position: fixed;
-        top: 50px;
-        left: 0;
-        right: 0;
-        background: rgba(10, 10, 26, 0.95);
-        backdrop-filter: blur(12px);
-        padding: 20px 0;
-        align-items: center;
-        justify-content: flex-start;
-        transform: translateY(-100%);
-        transition: transform 0.4s ease;
-        pointer-events: none;
-        z-index: 1500;
-        text-align: center;
-    }
-
-    .menu-bar.active .menu-links {
-        transform: translateY(0);
-        pointer-events: all;
-    }
-
-    .menu-links a {
-        font-size: 1.3rem;
-        padding: 10px 20px;
-        white-space: nowrap;
-    }
-
-    .video-section iframe {
-        height: 45vh;
-    }
-
-    /* Social Buttons – Pre-Smartphone */
-    .social-fixed {
-        gap: 0.8rem;
-    }
-    .social-fixed a {
-        width: 54px;
-        height: 54px;
-    }
-    .social-fixed a img {
-        width: 28px;
-        height: 28px;
-    }
-}
-
-/* Social Buttons – kleine Smartphones */
-@media (max-width: 600px) {
-    .gig-card {
-        flex-direction: column;
-        text-align: center;
-    }
-    .gig-date {
-        width: auto;
-        margin-right: 0;
-        margin-bottom: 15px;
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 15px;
-    }
-    .gig-info h4 {
-        font-size: 1.2rem;
-    }
-
-    .social-fixed {
-        gap: 0.7rem;
-    }
-    .social-fixed a {
-        width: 48px;
-        height: 48px;
-    }
-    .social-fixed a img {
-        width: 24px;
-        height: 24px;
-    }
-}
-
-/* Social Buttons – extra kleine Geräte */
-@media (max-width: 420px) {
-    .social-fixed {
-        gap: 0.55rem;
-    }
-    .social-fixed a {
-        width: 42px;
-        height: 42px;
-    }
-    .social-fixed a img {
-        width: 22px;
-        height: 22px;
-    }
-}
-
-@media (max-width: 720px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .cards {
-        grid-template-columns: 1fr;
-    }
-}
-
 	</style>
 </head>
 <body>
 
-<!-- Consent Banner -->
-<div id="consentBanner" style="
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 600px;
-  width: 90%;
-  background: rgba(34,34,34,0.95);
-  color: white;
-  border-radius: 12px;
-  padding: 20px 30px;
-  box-sizing: border-box;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-">
-  <p style="margin:0; font-size:1rem;">Wir verwenden Cookies, um die Nutzung unserer Website zu analysieren.</p>
-  <div style="display:flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-    <button id="acceptBtn" style="
-      padding: 8px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #2ee88f;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    ">OK</button>
-    <button id="declineBtn" style="
-      padding: 8px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #555;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    ">Ablehnen</button>
-  </div>
-</div>
+	<!-- Container für die Partikel-Animation -->
+	<div id="particles-js"></div>
 
-<!-- Burger Menu -->
-<div class="burger" id="burgerMenu">
-  <div></div><div></div><div></div>
-</div>
+	<div class="grain"></div>
+	<div id="green-glow"></div>
 
-<!-- Menu Bar -->
-<div class="menu-bar" id="menuBar">
-	<div class="menu-logo">Aurora Surrealis</div>
-	<nav class="menu-links">
-		<a href="#home">Home</a>
-		<a href="#band">Band</a>
-		<a href="#videos">Videos</a>
-		<a href="#gigs">Gigs</a>
-		<a href="#booking">Booking</a>
-		<a href="#social">Social Media</a>
-	</nav>
-</div>
-
-<canvas id="aurora"></canvas>
-<canvas id="green-glow"></canvas>
-<canvas id="particles"></canvas>
-
-<div class="grain"></div>
-
-<div class="hero-wrap" id="home">
-	<img src="Aktuell.png" alt="Aurora Surrealis Logo" class="logo-img" />
-	<div class="slogan">
-		Black/Death Metal from Freiburg, Germany.<span class="linebreak"></span>Dark, intense and atmospheric.
+	<div class="hero-wrap">
+		<!-- Platzhalter für euer Bandlogo-Bild -->
+		<img src="logo.png" alt="Aurora Surrealis Logo" class="logo-img">
+		
+		<h2 class="slogan">Black/Death Metal from Freiburg.<span class="linebreak">Dark, intense and atmospheric.</span></h2>
+		
+		<p class="statement">
+			AURORA SURREALIS EXPLICITLY OPPOSES RACISM, FASCISM, NSBM, AND ANY FORM OF DISCRIMINATION OR EXTREMIST IDEOLOGY.
+			<strong>NO HATE — JUST MUSIC</strong>
+		</p>
 	</div>
-	<div class="statement">
-    Aurora Surrealis explicitly opposes racism, fascism, NSBM, and any form of discrimination or extremist ideology.
-    <strong>NO HATE - JUST MUSIC</strong>
-</div>
-</div>
 
-<main class="stage" role="main">
-	
-	<!-- Band Section -->
-	<section class="band-section">
-		<h3 class="section-title" id="band">The Band</h3>
+	<div class="stage">
+		<h3 class="section-title">Live Rituals</h3>
 		
-		<div class="cards">
-			<div class="card" data-instagram="https://www.instagram.com/patti_pat_pat93">
-				<img src="patricia.jpg" alt="Patricia Korpel" class="member-img" />
-				<h4>Patricia Korpel</h4>
-				<span class="role">Vocals</span>
-			</div>
-
-			<div class="card" data-instagram="https://www.instagram.com/ciaran_terrawave">
-				<img src="ciaran.jpg" alt="Ciarán Steger-Hoey" class="member-img" />
-				<h4>Ciarán Steger-Hoey</h4>
-				<span class="role">Vocals / Bass</span>
-			</div>
-
-			<div class="card" data-instagram="https://www.instagram.com/flowalze">
-				<img src="flo.jpg" alt="Florian Lindner" class="member-img" />
-				<h4>Florian Lindner</h4>
-				<span class="role">Guitar</span>
-			</div>
-
-			<div class="card" data-instagram="https://www.instagram.com/lukash.egghead">
-				<img src="lukas.jpg" alt="Lukas Kowolik" class="member-img" />
-				<h4>Lukas Kowolik</h4>
-				<span class="role">Guitar</span>
-			</div>
-
-			<div class="card" data-instagram="https://www.instagram.com/jo_hier512">
-				<img src="joachim.jpg" alt="Joachim Hierholzer" class="member-img" />
-				<h4>Joachim Hierholzer</h4>
-				<span class="role">Drums</span>
-			</div>
-		</div>
-	</section>
-
-	<!-- Videos Section -->
-	<section class="video-section">
-		<h3 class="section-title" id="videos">Videos</h3>
-		
-		<h2>Fogbound</h2>
-		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qEWt_lilDC0" title="Fogbound" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		
-		<h2 style="margin-top: 60px;">Siren's Call</h2>
-		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/EARMrLRYrl4" title="Siren's Call" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-		<h2 style="margin-top: 60px;">Emptiness</h2>
-		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/9_NcSPTU8Kk" title="Emptiness" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		
-	</section>
-	
-	<!-- Gigs Section -->
-	<section class="gigs-section">
-		<h3 class="section-title" id="gigs">Upcoming Gigs</h3>
-
 		<div class="gig-list">
-			<div class="gig-card" onclick="window.open('https://www.wacken.com/en/line-up/bands/', '_blank')">
+			<div class="gig-card">
 				<div class="gig-date">
-					<div class="day">-</div>
-					<div class="month">TBA</div>
+					<div class="day">31</div>
+					<div class="month">Okt</div>
 				</div>
 				<div class="gig-info">
-					<h4>Stay tuned!</h4>
-					<p>More Gigs Coming Soon</p>
-				</div>
-			</div>
-
-			<div class="gig-card" onclick="window.open('https://www.party-san.de/bands-2026', '_blank')">
-				<div class="gig-date">
-					<div class="day">-</div>
-					<div class="month">TBA</div>
-				</div>
-				<div class="gig-info">
-					<h4>Stay tuned!</h4>
-					<p>More Gigs Coming Soon</p>
-				</div>
-			</div>
-
-			<div class="gig-card" onclick="window.open('https://www.summer-breeze.de/de/bands', '_blank')">
-				<div class="gig-date">
-					<div class="day">-</div>
-					<div class="month">TBA</div>
-				</div>
-				<div class="gig-info">
-					<h4>Stay tuned!</h4>
-					<p>More Gigs Coming Soon</p>
+					<h4>Samhain Night Festival</h4>
+					<p>Crash, Freiburg i. Br.</p>
 				</div>
 			</div>
 		</div>
-	</section>
 
-	<!-- Booking Section -->
-	<section class="booking-section">
-		<h3 class="section-title" id="booking">Booking</h3>
-
-		<div class="booking-box">
-			<p>
-				Interested in booking Aurora Surrealis? Get in touch with us.
-			</p>
-
-			<a class="booking-btn"
-			   href="mailto:aurorasurrealis5@gmail.com?subject=Booking%20Request%20-%20Aurora%20Surrealis&body=Venue%2FLocation%3A%0ACity%2FCountry%3A%0ADate%3A%0AType%20of%20event%3A%0AExpected%20attendance%3A%0AAdditional%20info%3A%0A">
-				📩 Send Booking Request
-			</a>
-
-			<p class="booking-mail">aurorasurrealis5@gmail.com</p>
+		<div class="booking-section">
+			<div class="booking-box">
+				<p>Sucht ihr nach einer atmosphärischen und intensiven Live-Erfahrung für euer Event oder Festival? Schreibt uns an.</p>
+				<a href="mailto:booking@aurorasurrealis.de" class="booking-btn">Contact / Booking</a>
+			</div>
 		</div>
-	</section>
+	</div>
 
-	<!-- Social Section -->
-	<section id="social" class="social-section">
-		<h3 class="section-title">Follow Us</h3>
-
-		<div class="social-fixed">
-	<a href="https://open.spotify.com/artist/6PE4P0KX2UFDOuvI3Vydsf" target="_blank">
-    	<img src="icons/spotify-logo.png" alt="Spotify Logo">
-	</a>
+	<!-- Particles.js Skript einbinden -->
+	<script src="https://jsdelivr.net"></script>
 	
-    <a href="https://app.backstagepro.de/aurora-surrealis" target="_blank">
-        <img src="icons/Backstagepro.jpg" alt="BackstagePro Logo">
-    </a>
-
-    <a href="https://aurorasurrealis.bandcamp.com" target="_blank">
-        <img src="icons/bandcamp-button-bc-circle-black-512.png" alt="Bandcamp Logo">
-    </a>
-
-    <a href="https://soundcloud.com/aurora-surrealis-official" target="_blank">
-        <img src="icons/SoundCloud_-_Logo.svg.png" alt="SoundCloud Logo">
-    </a>
-
-    <a href="https://www.instagram.com/aurorasurrealisband" target="_blank">
-        <img src="icons/Instagram.svg.png" alt="Instagram Logo">
-    </a>
-
-    <a href="https://www.youtube.com/@AuroraSurrealisOfficial" target="_blank">
-        <img src="icons/YouTube.svg" alt="YouTube Logo">
-    </a>
-
-    <a href="https://linktr.ee/aurorasurrealisband" target="_blank">
-        <img src="icons/vecteezy_linktree-circle-logo-icon-linktree-app-editable-transparent_66118531.png" alt="Linktree Logo">
-    </a>
-</div>
-
-	</section>
-
-</main>
-
-<script>
-// Consent Banner Logic
-let savedConsent = localStorage.getItem('consentMode');
-
-if(savedConsent === 'granted') {
-  gtag('consent', 'update', {
-    'ad_storage': 'granted',
-    'ad_user_data': 'granted',
-    'ad_personalization': 'granted',
-    'analytics_storage': 'granted'
-  });
-  document.getElementById('consentBanner').style.display = 'none';
-} else if(savedConsent === 'denied') {
-  document.getElementById('consentBanner').style.display = 'none';
-}
-
-document.getElementById('acceptBtn').onclick = function() {
-  gtag('consent', 'update', {
-    'ad_storage': 'granted',
-    'ad_user_data': 'granted',
-    'ad_personalization': 'granted',
-    'analytics_storage': 'granted'
-  });
-  localStorage.setItem('consentMode', 'granted');
-  document.getElementById('consentBanner').style.display = 'none';
-};
-
-document.getElementById('declineBtn').onclick = function() {
-  localStorage.setItem('consentMode', 'denied');
-  document.getElementById('consentBanner').style.display = 'none';
-};
-
-// Menu Toggle
-const burger = document.getElementById('burgerMenu');
-const menuBar = document.getElementById('menuBar');
-
-burger.addEventListener('click', () => {
-	burger.classList.toggle('active');
-	menuBar.classList.toggle('active');
-});
-
-// Smooth Scroll & Close Menu
-document.querySelectorAll('.menu-links a').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    if(target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// Band Card Instagram Click
-document.querySelectorAll('.card').forEach(card => {
-	card.addEventListener('click', () => {
-		const instaUrl = card.getAttribute('data-instagram');
-		if(instaUrl) {
-			window.open(instaUrl, '_blank');
-		}
-	});
-});
-
-// Aurora Canvas Animation
-(function () {
-	const canvas = document.getElementById("aurora");
-	const ctx = canvas.getContext("2d");
-
-	let w = (canvas.width = window.innerWidth);
-	let h = (canvas.height = window.innerHeight);
-
-	const layers = [
-		{ color: "rgba(46,232,143,0.25)", intensity: 0.8, speed: 0.0015 },
-		{ color: "rgba(59,0,255,0.15)", intensity: 0.65, speed: 0.0010 },
-		{ color: "rgba(255,50,200,0.12)", intensity: 0.6, speed: 0.0007 }
-	];
-
-	function noise(x, y, t) {
-		return (
-			Math.sin(x * 0.002 + t * 0.5) +
-			Math.cos(y * 0.003 + t * 0.2) +
-			Math.sin((x + y) * 0.001 + t * 0.3)
-		) * 0.5;
-	}
-
-	let t = 0;
-
-	function drawAurora() {
-		ctx.clearRect(0, 0, w, h);
-
-		layers.forEach((layer, index) => {
-			ctx.beginPath();
-
-			const gradient = ctx.createLinearGradient(0, h * 0.1, 0, h * 0.7);
-			gradient.addColorStop(0, layer.color);
-			gradient.addColorStop(1, "rgba(0,0,0,0)");
-			ctx.fillStyle = gradient;
-
-			ctx.moveTo(0, h);
-
-			for (let x = 0; x <= w; x += 8) {
-				const n =
-					noise(x, h * 0.3, t + index * 10) * 120 +
-					noise(x * 0.2, h * 0.1, t + index * 5) * 80;
-
-				const y = h * 0.35 - n * layer.intensity;
-
-				ctx.lineTo(x, y);
-			}
-
-			ctx.lineTo(w, h);
-			ctx.closePath();
-			ctx.fill();
-		});
-
-		t += 0.002;
-		requestAnimationFrame(drawAurora);
-	}
-
-	drawAurora();
-
-	window.addEventListener("resize", () => {
-		w = canvas.width = window.innerWidth;
-		h = canvas.height = window.innerHeight;
-	});
-})();
-
-// Green Glow Canvas Animation
-(function(){
-	const canvas = document.getElementById('green-glow');
-	const ctx = canvas.getContext('2d');
-	
-	let w = canvas.width = window.innerWidth;
-	let h = canvas.height = window.innerHeight;
-
-	let offset = 0;
-
-	function drawGlow(){
-		ctx.clearRect(0,0,w,h);
-		offset += 0.02;
-
-		const layers = [
-			{xAmp:120, yAmp:80, opacity:0.35, phase:0, noiseFactor:1.2},
-			{xAmp:90, yAmp:60, opacity:0.25, phase:100, noiseFactor:1.0},
-			{xAmp:110, yAmp:70, opacity:0.15, phase:50, noiseFactor:0.8}
-		];
-
-		layers.forEach(layer => {
-			const xRandom = (Math.random()-0.5) * layer.noiseFactor * 20;
-			const yRandom = (Math.random()-0.5) * layer.noiseFactor * 15;
-
-			const grd = ctx.createRadialGradient(
-				w/2 + Math.sin(offset + layer.phase)*layer.xAmp + xRandom,
-				h/2 + Math.cos(offset + layer.phase)*layer.yAmp + yRandom,
-				0,
-				w/2 + Math.sin(offset + layer.phase)*layer.xAmp + xRandom,
-				h/2 + Math.cos(offset + layer.phase)*layer.yAmp + yRandom,
-				1200
-			);
-			grd.addColorStop(0, `rgba(46,232,143,${layer.opacity})`);
-			grd.addColorStop(0.5, `rgba(46,232,143,${layer.opacity/2})`);
-			grd.addColorStop(1,'rgba(46,232,143,0)');
-			ctx.fillStyle = grd;
-			ctx.fillRect(0,0,w,h);
-		});
-
-		requestAnimationFrame(drawGlow);
-	}
-	drawGlow();
-
-	window.addEventListener('resize', ()=>{
-		w = canvas.width = window.innerWidth;
-		h = canvas.height = window.innerHeight;
-	});
-})();
-
-// Particles Animation
-(function(){
-	const canvas = document.getElementById('particles');
-	const ctx = canvas.getContext('2d');
-	let w = canvas.width = window.innerWidth;
-	let h = canvas.height = window.innerHeight;
-
-	class Firefly {
-		constructor() {
-			this.reset();
-		}
-		reset() {
-			this.x = Math.random() * w;
-			this.y = Math.random() * h;
-			this.size = Math.random() * 2 + 2;
-			this.speed = Math.random() * 0.3 + 0.05;
-			this.alpha = Math.random() * 0.5 + 0.4;
-			this.angle = Math.random() * Math.PI * 2;
-			this.angularSpeed = (Math.random()-0.5) * 0.01;
-			this.color = `rgba(46,232,143,${this.alpha})`;
-		}
-		update() {
-			this.angle += this.angularSpeed;
-			this.x += Math.cos(this.angle) * this.speed;
-			this.y += Math.sin(this.angle) * this.speed;
-
-			if(this.x > w) this.x = 0;
-			if(this.x < 0) this.x = w;
-			if(this.y > h) this.y = 0;
-			if(this.y < 0) this.y = h;
-		}
-		draw() {
-			ctx.fillStyle = this.color;
-			ctx.beginPath();
-			ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-			ctx.fill();
-		}
-	}
-
-	const fireflies = Array.from({length: 80}, () => new Firefly());
-
-	function animate() {
-		ctx.clearRect(0,0,w,h);
-		fireflies.forEach(f => {
-			f.update();
-			f.draw();
-		});
-		requestAnimationFrame(animate);
-	}
-	animate();
-
-	window.addEventListener('resize', ()=>{
-		w = canvas.width = window.innerWidth;
-		h = canvas.height = window.innerHeight;
-	});
-})();
-</script>
-
-</body>
-</html>
+	<!-- Partikel Konfiguration laden -->
+	<script>
+		particlesJS("particles-js", {
+			"particles": {
+				"number": {
