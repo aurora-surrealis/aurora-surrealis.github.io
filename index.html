@@ -1163,14 +1163,19 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 
-// Particles Animation (Fireflies mit Maus- + Touch-Reaktion)
+// Particles Animation (Fireflies – PC stark, Handy optimiert)
 (function(){
 	const canvas = document.getElementById('particles');
 	const ctx = canvas.getContext('2d');
 	let w = canvas.width = window.innerWidth;
 	let h = canvas.height = window.innerHeight;
 
-	// Position von Maus oder Finger
+	// Prüfen, ob es ein Handy ist
+	const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+
+	// Anzahl der Partikel je nach Gerät
+	const particleCount = isMobile ? 35 : 80;
+
 	let pointer = { x: null, y: null };
 
 	// Maus
@@ -1183,7 +1188,7 @@ document.querySelectorAll('.card').forEach(card => {
 		pointer.y = null;
 	});
 
-	// Touch (Handy)
+	// Touch
 	window.addEventListener('touchstart', (e) => {
 		if (e.touches.length > 0) {
 			pointer.x = e.touches[0].clientX;
@@ -1222,12 +1227,10 @@ document.querySelectorAll('.card').forEach(card => {
 			this.color = `rgba(46,232,143,${this.alpha})`;
 		}
 		update() {
-			// Normale langsame Bewegung
 			this.angle += this.angularSpeed;
 			this.x += Math.cos(this.angle) * this.speed;
 			this.y += Math.sin(this.angle) * this.speed;
 
-			// Reaktion auf Maus oder Finger
 			if (pointer.x !== null && pointer.y !== null) {
 				const dx = pointer.x - this.x;
 				const dy = pointer.y - this.y;
@@ -1235,19 +1238,15 @@ document.querySelectorAll('.card').forEach(card => {
 
 				if (dist < 230) {
 					const force = (230 - dist) / 230;
-
-					// Sanft anziehen
 					this.x += dx * force * 0.018;
 					this.y += dy * force * 0.018;
 
-					// Leichtes Kreisen
 					const angleToPointer = Math.atan2(dy, dx);
 					this.x += Math.cos(angleToPointer + Math.PI / 2) * force * 0.9;
 					this.y += Math.sin(angleToPointer + Math.PI / 2) * force * 0.9;
 				}
 			}
 
-			// Am Rand umwickeln
 			if (this.x > w) this.x = 0;
 			if (this.x < 0) this.x = w;
 			if (this.y > h) this.y = 0;
@@ -1261,7 +1260,7 @@ document.querySelectorAll('.card').forEach(card => {
 		}
 	}
 
-	const fireflies = Array.from({length: 80}, () => new Firefly());
+	const fireflies = Array.from({length: particleCount}, () => new Firefly());
 
 	function animate() {
 		ctx.clearRect(0, 0, w, h);
@@ -1284,10 +1283,13 @@ document.querySelectorAll('.card').forEach(card => {
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <script>
+// Prüfen, ob Handy
+const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+
 particlesJS("particles-js", {
 	"particles": {
 		"number": {
-			"value": 55,
+			"value": isMobile ? 28 : 55,
 			"density": {
 				"enable": true,
 				"value_area": 800
@@ -1315,14 +1317,14 @@ particlesJS("particles-js", {
 		},
 		"line_linked": {
 			"enable": true,
-			"distance": 150,
+			"distance": isMobile ? 120 : 150,
 			"color": "#2ee88f",
 			"opacity": 0.3,
 			"width": 1
 		},
 		"move": {
 			"enable": true,
-			"speed": 1.4,
+			"speed": isMobile ? 1.0 : 1.4,
 			"direction": "none",
 			"random": true,
 			"straight": false,
@@ -1344,7 +1346,7 @@ particlesJS("particles-js", {
 		},
 		"modes": {
 			"grab": {
-				"distance": 180,
+				"distance": isMobile ? 140 : 180,
 				"line_linked": {
 					"opacity": 0.55
 				}
