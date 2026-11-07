@@ -1163,24 +1163,48 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 
-// Particles Animation (Fireflies mit Maus-Reaktion)
+// Particles Animation (Fireflies mit Maus- + Touch-Reaktion)
 (function(){
 	const canvas = document.getElementById('particles');
 	const ctx = canvas.getContext('2d');
 	let w = canvas.width = window.innerWidth;
 	let h = canvas.height = window.innerHeight;
 
-	// Maus-Position speichern
-	let mouse = { x: null, y: null };
+	// Position von Maus oder Finger
+	let pointer = { x: null, y: null };
 
+	// Maus
 	window.addEventListener('mousemove', (e) => {
-		mouse.x = e.clientX;
-		mouse.y = e.clientY;
+		pointer.x = e.clientX;
+		pointer.y = e.clientY;
+	});
+	window.addEventListener('mouseleave', () => {
+		pointer.x = null;
+		pointer.y = null;
 	});
 
-	window.addEventListener('mouseleave', () => {
-		mouse.x = null;
-		mouse.y = null;
+	// Touch (Handy)
+	window.addEventListener('touchstart', (e) => {
+		if (e.touches.length > 0) {
+			pointer.x = e.touches[0].clientX;
+			pointer.y = e.touches[0].clientY;
+		}
+	}, { passive: true });
+
+	window.addEventListener('touchmove', (e) => {
+		if (e.touches.length > 0) {
+			pointer.x = e.touches[0].clientX;
+			pointer.y = e.touches[0].clientY;
+		}
+	}, { passive: true });
+
+	window.addEventListener('touchend', () => {
+		pointer.x = null;
+		pointer.y = null;
+	});
+	window.addEventListener('touchcancel', () => {
+		pointer.x = null;
+		pointer.y = null;
 	});
 
 	class Firefly {
@@ -1203,10 +1227,10 @@ document.querySelectorAll('.card').forEach(card => {
 			this.x += Math.cos(this.angle) * this.speed;
 			this.y += Math.sin(this.angle) * this.speed;
 
-			// Maus-Interaktion
-			if (mouse.x !== null && mouse.y !== null) {
-				const dx = mouse.x - this.x;
-				const dy = mouse.y - this.y;
+			// Reaktion auf Maus oder Finger
+			if (pointer.x !== null && pointer.y !== null) {
+				const dx = pointer.x - this.x;
+				const dy = pointer.y - this.y;
 				const dist = Math.sqrt(dx * dx + dy * dy);
 
 				if (dist < 230) {
@@ -1216,10 +1240,10 @@ document.querySelectorAll('.card').forEach(card => {
 					this.x += dx * force * 0.018;
 					this.y += dy * force * 0.018;
 
-					// Leichtes Kreisen um die Maus
-					const angleToMouse = Math.atan2(dy, dx);
-					this.x += Math.cos(angleToMouse + Math.PI / 2) * force * 0.9;
-					this.y += Math.sin(angleToMouse + Math.PI / 2) * force * 0.9;
+					// Leichtes Kreisen
+					const angleToPointer = Math.atan2(dy, dx);
+					this.x += Math.cos(angleToPointer + Math.PI / 2) * force * 0.9;
+					this.y += Math.sin(angleToPointer + Math.PI / 2) * force * 0.9;
 				}
 			}
 
