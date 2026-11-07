@@ -1050,15 +1050,18 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 });
 
-// Aurora Canvas Animation
+// Aurora Canvas Animation (PC stark, Handy leichter)
 (function () {
 	const canvas = document.getElementById("aurora");
 	const ctx = canvas.getContext("2d");
-
 	let w = (canvas.width = window.innerWidth);
 	let h = (canvas.height = window.innerHeight);
 
-	const layers = [
+	const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+
+	const layers = isMobile ? [
+		{ color: "rgba(46,232,143,0.22)", intensity: 0.7, speed: 0.0012 }
+	] : [
 		{ color: "rgba(46,232,143,0.25)", intensity: 0.8, speed: 0.0015 },
 		{ color: "rgba(59,0,255,0.15)", intensity: 0.65, speed: 0.0010 },
 		{ color: "rgba(255,50,200,0.12)", intensity: 0.6, speed: 0.0007 }
@@ -1073,39 +1076,35 @@ document.querySelectorAll('.card').forEach(card => {
 	}
 
 	let t = 0;
-
 	function drawAurora() {
 		ctx.clearRect(0, 0, w, h);
 
 		layers.forEach((layer, index) => {
 			ctx.beginPath();
-
 			const gradient = ctx.createLinearGradient(0, h * 0.1, 0, h * 0.7);
 			gradient.addColorStop(0, layer.color);
 			gradient.addColorStop(1, "rgba(0,0,0,0)");
 			ctx.fillStyle = gradient;
-
 			ctx.moveTo(0, h);
 
-			for (let x = 0; x <= w; x += 8) {
+			// Auf dem Handy größere Schritte → weniger Rechenaufwand
+			const step = isMobile ? 16 : 8;
+
+			for (let x = 0; x <= w; x += step) {
 				const n =
 					noise(x, h * 0.3, t + index * 10) * 120 +
 					noise(x * 0.2, h * 0.1, t + index * 5) * 80;
-
 				const y = h * 0.35 - n * layer.intensity;
-
 				ctx.lineTo(x, y);
 			}
-
 			ctx.lineTo(w, h);
 			ctx.closePath();
 			ctx.fill();
 		});
 
-		t += 0.002;
+		t += isMobile ? 0.0012 : 0.002;
 		requestAnimationFrame(drawAurora);
 	}
-
 	drawAurora();
 
 	window.addEventListener("resize", () => {
@@ -1114,29 +1113,33 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 
-// Green Glow Canvas Animation
+// Green Glow Canvas Animation (PC stark, Handy leichter)
 (function(){
 	const canvas = document.getElementById('green-glow');
 	const ctx = canvas.getContext('2d');
 	
 	let w = canvas.width = window.innerWidth;
 	let h = canvas.height = window.innerHeight;
-
 	let offset = 0;
+
+	const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
 
 	function drawGlow(){
 		ctx.clearRect(0,0,w,h);
-		offset += 0.02;
+		offset += isMobile ? 0.012 : 0.02;
 
-		const layers = [
+		// Auf dem Handy nur eine Glow-Schicht statt drei
+		const layers = isMobile ? [
+			{xAmp:100, yAmp:70, opacity:0.28, phase:0, noiseFactor:1.0}
+		] : [
 			{xAmp:120, yAmp:80, opacity:0.35, phase:0, noiseFactor:1.2},
 			{xAmp:90, yAmp:60, opacity:0.25, phase:100, noiseFactor:1.0},
 			{xAmp:110, yAmp:70, opacity:0.15, phase:50, noiseFactor:0.8}
 		];
 
 		layers.forEach(layer => {
-			const xRandom = (Math.random()-0.5) * layer.noiseFactor * 20;
-			const yRandom = (Math.random()-0.5) * layer.noiseFactor * 15;
+			const xRandom = (Math.random()-0.5) * layer.noiseFactor * (isMobile ? 10 : 20);
+			const yRandom = (Math.random()-0.5) * layer.noiseFactor * (isMobile ? 8 : 15);
 
 			const grd = ctx.createRadialGradient(
 				w/2 + Math.sin(offset + layer.phase)*layer.xAmp + xRandom,
@@ -1144,7 +1147,7 @@ document.querySelectorAll('.card').forEach(card => {
 				0,
 				w/2 + Math.sin(offset + layer.phase)*layer.xAmp + xRandom,
 				h/2 + Math.cos(offset + layer.phase)*layer.yAmp + yRandom,
-				1200
+				isMobile ? 900 : 1200
 			);
 			grd.addColorStop(0, `rgba(46,232,143,${layer.opacity})`);
 			grd.addColorStop(0.5, `rgba(46,232,143,${layer.opacity/2})`);
