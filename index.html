@@ -584,6 +584,132 @@ html, body {
     filter: brightness(1.3) drop-shadow(0 0 8px rgba(46, 232, 143, 0.8));
 }
 
+/* ===== Band Photo Section ===== */
+.bandphoto-section {
+	margin: 80px auto 100px auto;
+	text-align: center;
+	max-width: 900px;
+	padding: 0 20px;
+}
+
+.bandphoto-teaser {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	max-width: 680px;
+	border-radius: 16px;
+	overflow: hidden;
+	cursor: pointer;
+	border: 1px solid rgba(46, 232, 143, 0.15);
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+	transition: all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bandphoto-teaser img {
+	width: 100%;
+	height: auto;
+	display: block;
+	filter: brightness(0.72) contrast(1.05);
+	transition: all 0.45s ease;
+}
+
+.bandphoto-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.35);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 1;
+	transition: opacity 0.35s ease;
+}
+
+.bandphoto-overlay span {
+	font-family: "Cinzel", serif;
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 1.1rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	border: 1px solid rgba(46, 232, 143, 0.4);
+	padding: 10px 22px;
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 0.4);
+}
+
+/* Hover-Effekt */
+.bandphoto-teaser:hover {
+	transform: scale(1.03);
+	box-shadow: 0 0 50px rgba(46, 232, 143, 0.25), 0 15px 50px rgba(0, 0, 0, 0.6);
+	border-color: rgba(46, 232, 143, 0.35);
+}
+
+.bandphoto-teaser:hover img {
+	filter: brightness(1) contrast(1.05);
+}
+
+.bandphoto-teaser:hover .bandphoto-overlay {
+	opacity: 0;
+}
+
+/* ===== Lightbox Modal ===== */
+.bandphoto-modal {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.92);
+	z-index: 99999;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	backdrop-filter: blur(8px);
+}
+
+.bandphoto-modal.active {
+	display: flex;
+}
+
+.bandphoto-modal-content {
+	position: relative;
+	max-width: 1100px;
+	width: 100%;
+	max-height: 90vh;
+}
+
+.bandphoto-modal-content img {
+	width: 100%;
+	height: auto;
+	max-height: 90vh;
+	object-fit: contain;
+	border-radius: 10px;
+	box-shadow: 0 0 60px rgba(46, 232, 143, 0.15);
+}
+
+.bandphoto-close {
+	position: absolute;
+	top: -45px;
+	right: 0;
+	color: #fff;
+	font-size: 2.4rem;
+	cursor: pointer;
+	transition: color 0.25s ease;
+	line-height: 1;
+}
+
+.bandphoto-close:hover {
+	color: var(--aurora-green);
+}
+
+/* Mobile Anpassung */
+@media (max-width: 768px) {
+	.bandphoto-teaser {
+		max-width: 100%;
+	}
+	.bandphoto-overlay span {
+		font-size: 0.95rem;
+		padding: 8px 16px;
+	}
+}
+		
 /* Videos */
 .video-section {
   margin-top: 40px;
@@ -879,6 +1005,26 @@ html, body {
 		</div>
 	</section>
 
+<!-- Band Photo Section -->
+<section class="bandphoto-section">
+	<h3 class="section-title">Band Photo</h3>
+	
+	<div class="bandphoto-teaser" id="bandphotoTeaser">
+		<img src="Official_Band_Photo_01.jpg" alt="Aurora Surrealis Band Photo" class="bandphoto-img">
+		<div class="bandphoto-overlay">
+			<span>Click to enlarge</span>
+		</div>
+	</div>
+</section>
+
+<!-- Lightbox Modal -->
+<div class="bandphoto-modal" id="bandphotoModal">
+	<div class="bandphoto-modal-content">
+		<span class="bandphoto-close" id="bandphotoClose">&times;</span>
+		<img src="Official_Band_Photo_01.jpg" alt="Aurora Surrealis Band Photo">
+	</div>
+</div>
+	
 	<!-- Videos Section -->
 	<section class="video-section">
 		<h3 class="section-title" id="videos">Videos</h3>
@@ -1273,6 +1419,27 @@ document.querySelectorAll('.card').forEach(card => {
 })();
 </script>
 
+<script>
+// Band Photo Lightbox
+const teaser = document.getElementById('bandphotoTeaser');
+const modal = document.getElementById('bandphotoModal');
+const closeBtn = document.getElementById('bandphotoClose');
+
+teaser.addEventListener('click', () => {
+	modal.classList.add('active');
+});
+
+closeBtn.addEventListener('click', () => {
+	modal.classList.remove('active');
+});
+
+modal.addEventListener('click', (e) => {
+	if (e.target === modal) {
+		modal.classList.remove('active');
+	}
+});
+</script>
+	
 <!-- particles.js Bibliothek -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
