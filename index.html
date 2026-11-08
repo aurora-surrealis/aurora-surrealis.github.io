@@ -596,7 +596,8 @@ html, body {
 	position: relative;
 	display: inline-block;
 	width: 100%;
-	max-width: 680px;
+	max-width: 780px;
+	aspect-ratio: 2.4 / 1;          /* ≈ 21:9 – kannst du noch schmaler machen */
 	border-radius: 16px;
 	overflow: hidden;
 	cursor: pointer;
@@ -607,7 +608,9 @@ html, body {
 
 .bandphoto-teaser img {
 	width: 100%;
-	height: auto;
+	height: 100%;
+	object-fit: cover;               /* schneidet das Bild, quetscht es nicht */
+	object-position: center 30%;     /* etwas nach oben ausgerichtet – kannst du anpassen */
 	display: block;
 	filter: brightness(0.72) contrast(1.05);
 	transition: all 0.45s ease;
@@ -656,12 +659,13 @@ html, body {
 	display: none;
 	position: fixed;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.92);
-	z-index: 99999;
+	background: rgba(0, 0, 0, 0.94);
+	z-index: 999999;          /* deutlich höher */
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
-	backdrop-filter: blur(8px);
+	backdrop-filter: blur(10px);
+	overflow: hidden;         /* verhindert Scrollen */
 }
 
 .bandphoto-modal.active {
@@ -1427,15 +1431,18 @@ const closeBtn = document.getElementById('bandphotoClose');
 
 teaser.addEventListener('click', () => {
 	modal.classList.add('active');
+	document.body.style.overflow = 'hidden';   // Scrollen sperren
 });
 
 closeBtn.addEventListener('click', () => {
 	modal.classList.remove('active');
+	document.body.style.overflow = '';         // Scrollen wieder erlauben
 });
 
 modal.addEventListener('click', (e) => {
 	if (e.target === modal) {
 		modal.classList.remove('active');
+		document.body.style.overflow = '';
 	}
 });
 </script>
