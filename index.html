@@ -1414,30 +1414,6 @@ document.querySelectorAll('.card').forEach(card => {
 	});
 })();
 </script>
-
-<script>
-// Band Photo Lightbox
-const teaser = document.getElementById('bandphotoTeaser');
-const modal = document.getElementById('bandphotoModal');
-const closeBtn = document.getElementById('bandphotoClose');
-
-teaser.addEventListener('click', () => {
-	modal.classList.add('active');
-	document.body.style.overflow = 'hidden';   // Scrollen sperren
-});
-
-closeBtn.addEventListener('click', () => {
-	modal.classList.remove('active');
-	document.body.style.overflow = '';         // Scrollen wieder erlauben
-});
-
-modal.addEventListener('click', (e) => {
-	if (e.target === modal) {
-		modal.classList.remove('active');
-		document.body.style.overflow = '';
-	}
-});
-</script>
 	
 <!-- particles.js Bibliothek -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -1524,6 +1500,30 @@ particlesJS("particles-js", {
 		<img src="Official_Band_Photo_01.jpg" alt="Aurora Surrealis Band Photo">
 	</div>
 </div>
+
+<script>
+// Band Photo Lightbox
+const teaser = document.getElementById('bandphotoTeaser');
+const modal = document.getElementById('bandphotoModal');
+const closeBtn = document.getElementById('bandphotoClose');
+
+teaser.addEventListener('click', () => {
+	modal.classList.add('active');
+	document.body.style.overflow = 'hidden';   // Scrollen sperren
+});
+
+closeBtn.addEventListener('click', () => {
+	modal.classList.remove('active');
+	document.body.style.overflow = '';         // Scrollen wieder erlauben
+});
+
+modal.addEventListener('click', (e) => {
+	if (e.target === modal) {
+		modal.classList.remove('active');
+		document.body.style.overflow = '';
+	}
+});
+</script>
 	
 </body>
 </html>
