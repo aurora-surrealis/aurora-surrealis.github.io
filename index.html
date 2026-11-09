@@ -391,6 +391,19 @@ html, body {
 	margin: 0;
 }
 
+/* Versteckt den lila Grafikfehler am oberen Videorand */
+iframe[src*="://youtube.com"] {
+  display: block !important;
+  margin-top: -6px !important;    /* Schiebt das Video minimal nach oben aus dem Rahmen */
+  margin-bottom: -6px !important; /* Gleicht den Abstand unten wieder aus */
+  transform: scaleY(1.02) !important; /* Verhindert feine Blitzer an den abgerundeten Ecken */
+}
+
+/* Sorgt dafür, dass der Container um das Video den Überhang sauber abschneidet */
+.stage iframe[src*="://youtube.com"] {
+  overflow: hidden !important;
+}
+		
 /* Booking Section */
 .booking-section {
 	margin-top: 40px;
