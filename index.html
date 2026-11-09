@@ -219,27 +219,27 @@ html, body {
 	pointer-events:none;
 }
 
-/* Hero Logo – mit Tilt + starkem Glow + leichtem Wobble */
+/* Hero Logo – stärkerer Glow + Tilt */
 .logo-img {
 	width: 800px;
 	max-width: 86vw;
 	height: auto;
 	opacity: 0.98;
 	transform-style: preserve-3d;
-	transition: transform 0.15s ease-out, filter 0.4s ease;
-	filter: drop-shadow(0 0 12px rgba(46, 232, 143, 0.35))
-	        drop-shadow(0 0 28px rgba(46, 232, 143, 0.18));
+	transition: transform 0.15s ease-out, filter 0.35s ease;
+	filter: 
+		drop-shadow(0 0 14px rgba(46, 232, 143, 0.45))
+		drop-shadow(0 0 30px rgba(46, 232, 143, 0.25))
+		drop-shadow(0 0 55px rgba(46, 232, 143, 0.12));
 	will-change: transform, filter;
 }
 
 .logo-img:hover {
-	filter: drop-shadow(0 0 18px rgba(46, 232, 143, 0.7))
-	        drop-shadow(0 0 45px rgba(46, 232, 143, 0.4))
-	        drop-shadow(0 0 80px rgba(46, 232, 143, 0.2));
-}
-
-.logo-img:hover {
-	transform: scale(1.05);
+	filter: 
+		drop-shadow(0 0 20px rgba(46, 232, 143, 0.85))
+		drop-shadow(0 0 45px rgba(46, 232, 143, 0.55))
+		drop-shadow(0 0 90px rgba(46, 232, 143, 0.3))
+		drop-shadow(0 0 140px rgba(46, 232, 143, 0.15));
 }
 
 .slogan{
@@ -1512,13 +1512,15 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo 3D-Tilt + leichter Wobble
+// Logo 3D-Tilt + Glow + Wobble (nur in der Nähe aktiv)
 (function() {
 	const logo = document.querySelector('.logo-img');
 	if (!logo) return;
 
-	const maxTilt = 9;          // maximale Neigung in Grad
-	const maxMove = 12;         // maximale Verschiebung in px
+	const maxTilt = 10;
+	const maxMove = 14;
+	const activationDistance = 420; // ab dieser Entfernung (in px) wird der Effekt schwächer / aus
+	let wobble = 0;
 
 	document.addEventListener('mousemove', (e) => {
 		const rect = logo.getBoundingClientRect();
@@ -1527,26 +1529,38 @@ modal.addEventListener('click', (e) => {
 
 		const mouseX = e.clientX - centerX;
 		const mouseY = e.clientY - centerY;
+		const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
 
-		// Normalisierte Werte (-1 bis 1)
+		// Wie stark der Effekt sein soll (1 = voll, 0 = aus)
+		let strength = 1 - (distance / activationDistance);
+		if (strength < 0) strength = 0;
+		if (strength > 1) strength = 1;
+
+		// Sanftes Ausfaden
+		strength = strength * strength;
+
 		const x = mouseX / (window.innerWidth / 2);
 		const y = mouseY / (window.innerHeight / 2);
 
-		const rotateY = x * maxTilt;
-		const rotateX = -y * maxTilt;
-		const moveX = x * maxMove;
-		const moveY = y * maxMove;
+		const rotateY = x * maxTilt * strength;
+		const rotateX = -y * maxTilt * strength;
+		const moveX = x * maxMove * strength;
+		const moveY = y * maxMove * strength;
+
+		// Wobble auch nur in der Nähe
+		wobble += 0.08 * strength;
+		const wobbleX = Math.sin(wobble) * 1.8 * strength;
+		const wobbleY = Math.cos(wobble * 0.8) * 1.5 * strength;
 
 		logo.style.transform = `
 			perspective(1000px)
-			rotateX(${rotateX}deg)
-			rotateY(${rotateY}deg)
+			rotateX(${rotateX + wobbleY}deg)
+			rotateY(${rotateY + wobbleX}deg)
 			translate(${moveX}px, ${moveY}px)
-			scale(1.02)
+			scale(${1 + (0.03 * strength)})
 		`;
 	});
 
-	// Wenn Maus das Fenster verlässt → zurücksetzen
 	document.addEventListener('mouseleave', () => {
 		logo.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translate(0, 0) scale(1)';
 	});
