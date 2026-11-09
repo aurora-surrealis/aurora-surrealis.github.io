@@ -392,7 +392,7 @@ html, body {
 }
 
 /* Versteckt den lila Grafikfehler am oberen Videorand */
-iframe[src*="://youtube.com"] {
+iframe[src*="youtube.com"] {
   display: block !important;
   margin-top: -6px !important;    /* Schiebt das Video minimal nach oben aus dem Rahmen */
   margin-bottom: -6px !important; /* Gleicht den Abstand unten wieder aus */
@@ -400,7 +400,7 @@ iframe[src*="://youtube.com"] {
 }
 
 /* Sorgt dafür, dass der Container um das Video den Überhang sauber abschneidet */
-.stage iframe[src*="://youtube.com"] {
+.video-card, .gig-card, div:has(iframe) {
   overflow: hidden !important;
 }
 		
