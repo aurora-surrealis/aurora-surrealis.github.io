@@ -227,6 +227,7 @@ html, body {
 	opacity: 0.98;
 	transform-style: preserve-3d;
 	transition: transform 0.15s ease-out, filter 0.35s ease;
+	pointer-events: auto;          /* ← diese Zeile ist wichtig! */
 	filter: 
 		drop-shadow(0 0 14px rgba(46, 232, 143, 0.45))
 		drop-shadow(0 0 30px rgba(46, 232, 143, 0.25))
@@ -1512,14 +1513,14 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo 3D-Tilt + Glow + Wobble (nur in der Nähe aktiv)
+// Logo 3D-Tilt + Glow + Wobble
 (function() {
 	const logo = document.querySelector('.logo-img');
 	if (!logo) return;
 
-	const maxTilt = 10;
-	const maxMove = 14;
-	const activationDistance = 420; // ab dieser Entfernung (in px) wird der Effekt schwächer / aus
+	const maxTilt = 14;               // stärkere Neigung
+	const maxMove = 18;
+	const activationDistance = 650;   // größerer Wirkungsbereich
 	let wobble = 0;
 
 	document.addEventListener('mousemove', (e) => {
@@ -1531,38 +1532,37 @@ modal.addEventListener('click', (e) => {
 		const mouseY = e.clientY - centerY;
 		const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
 
-		// Wie stark der Effekt sein soll (1 = voll, 0 = aus)
 		let strength = 1 - (distance / activationDistance);
 		if (strength < 0) strength = 0;
 		if (strength > 1) strength = 1;
 
-		// Sanftes Ausfaden
-		strength = strength * strength;
+		// etwas weicherer Übergang
+		strength = Math.pow(strength, 1.4);
 
-		const x = mouseX / (window.innerWidth / 2);
-		const y = mouseY / (window.innerHeight / 2);
+		const x = mouseX / (rect.width / 1.6);
+		const y = mouseY / (rect.height / 1.6);
 
 		const rotateY = x * maxTilt * strength;
 		const rotateX = -y * maxTilt * strength;
 		const moveX = x * maxMove * strength;
 		const moveY = y * maxMove * strength;
 
-		// Wobble auch nur in der Nähe
-		wobble += 0.08 * strength;
-		const wobbleX = Math.sin(wobble) * 1.8 * strength;
-		const wobbleY = Math.cos(wobble * 0.8) * 1.5 * strength;
+		// deutlich sichtbarer Wobble
+		wobble += 0.11 * strength;
+		const wobbleX = Math.sin(wobble) * 3.2 * strength;
+		const wobbleY = Math.cos(wobble * 0.7) * 2.6 * strength;
 
 		logo.style.transform = `
-			perspective(1000px)
+			perspective(900px)
 			rotateX(${rotateX + wobbleY}deg)
 			rotateY(${rotateY + wobbleX}deg)
 			translate(${moveX}px, ${moveY}px)
-			scale(${1 + (0.03 * strength)})
+			scale(${1 + (0.045 * strength)})
 		`;
 	});
 
 	document.addEventListener('mouseleave', () => {
-		logo.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translate(0, 0) scale(1)';
+		logo.style.transform = 'perspective(900px) rotateX(0) rotateY(0) translate(0, 0) scale(1)';
 	});
 })();
 </script>
