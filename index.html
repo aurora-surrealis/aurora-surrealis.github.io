@@ -1515,18 +1515,27 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo Canvas – 3D Tilt + lokale Verzerrung
+// Logo Canvas – ruhigerer Tilt + größere lokale Verzerrung + leichte Rotation
 (function() {
 	const img = document.querySelector('.logo-img');
 	const canvas = document.getElementById('logoCanvas');
 	if (!img || !canvas) return;
 
+	// Auf Mobilgeräten den schweren Effekt deaktivieren
+	const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+	if (isMobile) {
+		// Auf dem Handy einfach das normale Bild anzeigen
+		img.style.display = 'block';
+		canvas.style.display = 'none';
+		return;
+	}
+
 	const ctx = canvas.getContext('2d');
 	let w, h;
 	let mouse = { x: -9999, y: -9999 };
 	let imgLoaded = false;
+	let time = 0;
 
-	// Bild laden
 	const logoImage = new Image();
 	logoImage.src = img.src;
 	logoImage.onload = () => {
@@ -1536,7 +1545,6 @@ modal.addEventListener('click', (e) => {
 	};
 
 	function resize() {
-		// Größe an das Originalbild anpassen
 		const maxWidth = Math.min(800, window.innerWidth * 0.86);
 		const ratio = logoImage.naturalHeight / logoImage.naturalWidth;
 		w = maxWidth;
@@ -1555,7 +1563,6 @@ modal.addEventListener('click', (e) => {
 		}
 	});
 
-	// Mausposition relativ zum Canvas
 	canvas.addEventListener('mousemove', (e) => {
 		const rect = canvas.getBoundingClientRect();
 		mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width);
@@ -1573,36 +1580,33 @@ modal.addEventListener('click', (e) => {
 		if (!imgLoaded) return;
 
 		ctx.clearRect(0, 0, w, h);
+		time += 0.04;
 
-		// --- 3D Tilt berechnen ---
+		// --- Ruhigerer 3D Tilt ---
 		const rect = canvas.getBoundingClientRect();
-		const centerX = rect.left + rect.width / 2;
-		const centerY = rect.top + rect.height / 2;
 		const mx = (mouse.x >= 0) ? (mouse.x / w - 0.5) * 2 : 0;
 		const my = (mouse.y >= 0) ? (mouse.y / h - 0.5) * 2 : 0;
 
-		const rotateY = mx * 11;
-		const rotateX = -my * 11;
-		const scale = 1 + (Math.abs(mx) + Math.abs(my)) * 0.02;
+		const rotateY = mx * 6.5;   // vorher 11 → jetzt deutlich ruhiger
+		const rotateX = -my * 6.5;
+		const scale = 1 + (Math.abs(mx) + Math.abs(my)) * 0.015;
 
 		canvas.style.transform = `
-			perspective(900px)
+			perspective(1000px)
 			rotateX(${rotateX}deg)
 			rotateY(${rotateY}deg)
 			scale(${scale})
 		`;
 
-		// --- Lokale Verzerrung zeichnen ---
-		const radius = 140;          // Größe des Verzerrungsbereichs
-		const strength = 28;         // Stärke der Verzerrung
+		// --- Lokale Verzerrung ---
+		const radius = 185;        // größerer Radius
+		const strength = 26;
 
-		// Wenn Maus weit weg ist → normal zeichnen
 		if (mouse.x < -100) {
 			ctx.drawImage(logoImage, 0, 0, w, h);
 			return;
 		}
 
-		// Pixel für Pixel (vereinfachte aber performante Version)
 		const tempCanvas = document.createElement('canvas');
 		tempCanvas.width = w;
 		tempCanvas.height = h;
@@ -1625,7 +1629,7 @@ modal.addEventListener('click', (e) => {
 
 				if (dist < radius) {
 					const amount = (1 - dist / radius);
-					const angle = Math.atan2(dy, dx);
+					const angle = Math.atan2(dy, dx) + time * 0.6; // leichte Rotation
 					const pull = amount * amount * strength;
 
 					srcX = x - Math.cos(angle) * pull;
