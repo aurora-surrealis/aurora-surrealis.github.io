@@ -1530,7 +1530,7 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo Canvas – ruhigerer Tilt + lokale Verzerrung mit Eigenrotation
+// Logo Canvas – nur lokale Verzerrung mit gleichmäßiger Rotation (kein Tilt)
 (function() {
 	const img = document.querySelector('.logo-img');
 	const canvas = document.getElementById('logoCanvas');
@@ -1554,7 +1554,7 @@ modal.addEventListener('click', (e) => {
 	logoImage.onload = () => {
 		imgLoaded = true;
 		resize();
-		requestAnimationFrame(loop); // Animation starten
+		requestAnimationFrame(loop);
 	};
 
 	function resize() {
@@ -1585,7 +1585,7 @@ modal.addEventListener('click', (e) => {
 	});
 
 	function loop() {
-		time += 0.035;
+		time += 0.04;
 		draw();
 		requestAnimationFrame(loop);
 	}
@@ -1595,22 +1595,9 @@ modal.addEventListener('click', (e) => {
 
 		ctx.clearRect(0, 0, w, h);
 
-		// --- Ruhigerer 3D Tilt ---
-		const mx = (mouse.x >= 0) ? (mouse.x / w - 0.5) * 2 : 0;
-		const my = (mouse.y >= 0) ? (mouse.y / h - 0.5) * 2 : 0;
+		// Kein Tilt mehr – Canvas bleibt stabil
+		canvas.style.transform = 'none';
 
-		const rotateY = mx * 6.5;
-		const rotateX = -my * 6.5;
-		const scale = 1 + (Math.abs(mx) + Math.abs(my)) * 0.015;
-
-		canvas.style.transform = `
-			perspective(1000px)
-			rotateX(${rotateX}deg)
-			rotateY(${rotateY}deg)
-			scale(${scale})
-		`;
-
-		// --- Lokale Verzerrung mit Eigenrotation ---
 		const radius = 185;
 		const strength = 26;
 
@@ -1641,7 +1628,8 @@ modal.addEventListener('click', (e) => {
 
 				if (dist < radius) {
 					const amount = (1 - dist / radius);
-					const angle = Math.atan2(dy, dx) + time * 1.6; // Eigenrotation
+					// Nur noch gleichmäßige Rotation in eine Richtung
+					const angle = Math.atan2(dy, dx) + time * 1.5;
 					const pull = amount * amount * strength;
 
 					srcX = x - Math.cos(angle) * pull;
