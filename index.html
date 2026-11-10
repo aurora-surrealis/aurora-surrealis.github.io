@@ -1530,7 +1530,7 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo Canvas – nur lokale Verzerrung mit gleichmäßiger Rotation (kein Tilt)
+// Logo Canvas – lokale Verzerrung mit klarer Ein-Richtungs-Rotation
 (function() {
 	const img = document.querySelector('.logo-img');
 	const canvas = document.getElementById('logoCanvas');
@@ -1585,7 +1585,7 @@ modal.addEventListener('click', (e) => {
 	});
 
 	function loop() {
-		time += 0.04;
+		time += 0.045;
 		draw();
 		requestAnimationFrame(loop);
 	}
@@ -1595,11 +1595,11 @@ modal.addEventListener('click', (e) => {
 
 		ctx.clearRect(0, 0, w, h);
 
-		// Kein Tilt mehr – Canvas bleibt stabil
+		// Kein Tilt
 		canvas.style.transform = 'none';
 
 		const radius = 185;
-		const strength = 26;
+		const strength = 24;
 
 		if (mouse.x < -100) {
 			ctx.drawImage(logoImage, 0, 0, w, h);
@@ -1626,14 +1626,18 @@ modal.addEventListener('click', (e) => {
 				let srcX = x;
 				let srcY = y;
 
-				if (dist < radius) {
-					const amount = (1 - dist / radius);
-					// Nur noch gleichmäßige Rotation in eine Richtung
-					const angle = Math.atan2(dy, dx) + time * 1.5;
+				if (dist < radius && dist > 0) {
+					const amount = 1 - dist / radius;
+					
+					// Klare Rotation nur in eine Richtung (Uhrzeigersinn)
+					const baseAngle = Math.atan2(dy, dx);
+					const rotation = time * 1.8; // gleichmäßige Drehung
+					const angle = baseAngle + rotation;
+
 					const pull = amount * amount * strength;
 
-					srcX = x - Math.cos(angle) * pull;
-					srcY = y - Math.sin(angle) * pull;
+					srcX = mouse.x + Math.cos(angle) * dist - Math.cos(angle) * pull * 0.6;
+					srcY = mouse.y + Math.sin(angle) * dist - Math.sin(angle) * pull * 0.6;
 				}
 
 				srcX = Math.max(0, Math.min(w - 1, srcX));
