@@ -1515,16 +1515,14 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo Canvas – ruhigerer Tilt + größere lokale Verzerrung + leichte Rotation
+// Logo Canvas – ruhigerer Tilt + lokale Verzerrung mit Eigenrotation
 (function() {
 	const img = document.querySelector('.logo-img');
 	const canvas = document.getElementById('logoCanvas');
 	if (!img || !canvas) return;
 
-	// Auf Mobilgeräten den schweren Effekt deaktivieren
 	const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
 	if (isMobile) {
-		// Auf dem Handy einfach das normale Bild anzeigen
 		img.style.display = 'block';
 		canvas.style.display = 'none';
 		return;
@@ -1541,7 +1539,7 @@ modal.addEventListener('click', (e) => {
 	logoImage.onload = () => {
 		imgLoaded = true;
 		resize();
-		draw();
+		requestAnimationFrame(loop); // Animation starten
 	};
 
 	function resize() {
@@ -1557,37 +1555,36 @@ modal.addEventListener('click', (e) => {
 	}
 
 	window.addEventListener('resize', () => {
-		if (imgLoaded) {
-			resize();
-			draw();
-		}
+		if (imgLoaded) resize();
 	});
 
 	canvas.addEventListener('mousemove', (e) => {
 		const rect = canvas.getBoundingClientRect();
 		mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width);
 		mouse.y = (e.clientY - rect.top) * (canvas.height / rect.height);
-		draw();
 	});
 
 	canvas.addEventListener('mouseleave', () => {
 		mouse.x = -9999;
 		mouse.y = -9999;
-		draw();
 	});
+
+	function loop() {
+		time += 0.035;
+		draw();
+		requestAnimationFrame(loop);
+	}
 
 	function draw() {
 		if (!imgLoaded) return;
 
 		ctx.clearRect(0, 0, w, h);
-		time += 0.04;
 
 		// --- Ruhigerer 3D Tilt ---
-		const rect = canvas.getBoundingClientRect();
 		const mx = (mouse.x >= 0) ? (mouse.x / w - 0.5) * 2 : 0;
 		const my = (mouse.y >= 0) ? (mouse.y / h - 0.5) * 2 : 0;
 
-		const rotateY = mx * 6.5;   // vorher 11 → jetzt deutlich ruhiger
+		const rotateY = mx * 6.5;
 		const rotateX = -my * 6.5;
 		const scale = 1 + (Math.abs(mx) + Math.abs(my)) * 0.015;
 
@@ -1598,8 +1595,8 @@ modal.addEventListener('click', (e) => {
 			scale(${scale})
 		`;
 
-		// --- Lokale Verzerrung ---
-		const radius = 185;        // größerer Radius
+		// --- Lokale Verzerrung mit Eigenrotation ---
+		const radius = 185;
 		const strength = 26;
 
 		if (mouse.x < -100) {
@@ -1629,7 +1626,7 @@ modal.addEventListener('click', (e) => {
 
 				if (dist < radius) {
 					const amount = (1 - dist / radius);
-					const angle = Math.atan2(dy, dx) + time * 4; // Rotation
+					const angle = Math.atan2(dy, dx) + time * 1.6; // Eigenrotation
 					const pull = amount * amount * strength;
 
 					srcX = x - Math.cos(angle) * pull;
