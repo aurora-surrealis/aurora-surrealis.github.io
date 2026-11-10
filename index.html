@@ -1530,7 +1530,7 @@ modal.addEventListener('click', (e) => {
 </script>
 
 <script>
-// Logo Canvas – saubere Ein-Richtungs-Wirbelverzerrung
+// Logo Canvas – lokale Verzerrung (ohne Eigenrotation, ohne Tilt)
 (function() {
 	const img = document.querySelector('.logo-img');
 	const canvas = document.getElementById('logoCanvas');
@@ -1547,14 +1547,13 @@ modal.addEventListener('click', (e) => {
 	let w, h;
 	let mouse = { x: -9999, y: -9999 };
 	let imgLoaded = false;
-	let time = 0;
 
 	const logoImage = new Image();
 	logoImage.src = img.src;
 	logoImage.onload = () => {
 		imgLoaded = true;
 		resize();
-		requestAnimationFrame(loop);
+		draw();
 	};
 
 	function resize() {
@@ -1570,25 +1569,24 @@ modal.addEventListener('click', (e) => {
 	}
 
 	window.addEventListener('resize', () => {
-		if (imgLoaded) resize();
+		if (imgLoaded) {
+			resize();
+			draw();
+		}
 	});
 
 	canvas.addEventListener('mousemove', (e) => {
 		const rect = canvas.getBoundingClientRect();
 		mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width);
 		mouse.y = (e.clientY - rect.top) * (canvas.height / rect.height);
+		draw();
 	});
 
 	canvas.addEventListener('mouseleave', () => {
 		mouse.x = -9999;
 		mouse.y = -9999;
-	});
-
-	function loop() {
-		time += 0.05;
 		draw();
-		requestAnimationFrame(loop);
-	}
+	});
 
 	function draw() {
 		if (!imgLoaded) return;
@@ -1596,8 +1594,8 @@ modal.addEventListener('click', (e) => {
 		ctx.clearRect(0, 0, w, h);
 		canvas.style.transform = 'none';
 
-		const radius = 190;
-		const strength = 0.9; // Stärke des Wirbels
+		const radius = 185;
+		const strength = 26;
 
 		if (mouse.x < -100) {
 			ctx.drawImage(logoImage, 0, 0, w, h);
@@ -1624,17 +1622,13 @@ modal.addEventListener('click', (e) => {
 				let srcX = x;
 				let srcY = y;
 
-				if (dist < radius && dist > 1) {
-					const amount = 1 - dist / radius;
-					
-					// Saubere polar-Koordinaten Rotation (nur eine Richtung)
+				if (dist < radius) {
+					const amount = (1 - dist / radius);
 					const angle = Math.atan2(dy, dx);
-					const rotation = time * 1.4 * amount; // gleichmäßige Drehung
-					
-					const newAngle = angle + rotation * strength;
-					
-					srcX = mouse.x + Math.cos(newAngle) * dist;
-					srcY = mouse.y + Math.sin(newAngle) * dist;
+					const pull = amount * amount * strength;
+
+					srcX = x - Math.cos(angle) * pull;
+					srcY = y - Math.sin(angle) * pull;
 				}
 
 				srcX = Math.max(0, Math.min(w - 1, srcX));
