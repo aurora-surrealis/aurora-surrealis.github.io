@@ -219,41 +219,29 @@ html, body {
 	pointer-events:none;
 }
 
+/* Logo Canvas Version */
 .logo-img {
-	width:800px;
-	max-width:86vw;
-	height:auto;
-	opacity:0.98;
-	filter:drop-shadow(0 18px 40px rgba(0,0,0,0.7));
-	animation:
-		float 6s ease-in-out infinite,
-		pulseGlow 4s ease-in-out infinite;
-	transition: transform 0.3s ease;
+	display: none; /* Originalbild verstecken */
 }
 
-@keyframes float{
-	0%{transform:translateY(-6px)}
-	50%{transform:translateY(-14px)}
-	100%{transform:translateY(-6px)}
+#logoCanvas {
+	width: 800px;
+	max-width: 86vw;
+	height: auto;
+	display: block;
+	margin: 0 auto;
+	pointer-events: auto;
+	filter: drop-shadow(0 0 18px rgba(46, 232, 143, 0.4))
+	        drop-shadow(0 0 40px rgba(46, 232, 143, 0.2));
+	transition: filter 0.35s ease;
+	transform-style: preserve-3d;
+	will-change: transform, filter;
 }
 
-@keyframes pulseGlow {
-	0% {
-		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
-			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
-	}
-	50% {
-		filter: drop-shadow(0 0 16px rgba(0,255,136,0.45))
-			 		drop-shadow(0 0 28px rgba(0,255,136,0.32));
-	}
-	100% {
-		filter: drop-shadow(0 0 7px rgba(0,255,136,0.38))
-			 		drop-shadow(0 0 14px rgba(0,255,136,0.25));
-	}
-}
-
-.logo-img:hover {
-	transform: scale(1.05);
+#logoCanvas:hover {
+	filter: drop-shadow(0 0 25px rgba(46, 232, 143, 0.75))
+	        drop-shadow(0 0 55px rgba(46, 232, 143, 0.45))
+	        drop-shadow(0 0 100px rgba(46, 232, 143, 0.25));
 }
 
 .slogan{
@@ -961,6 +949,7 @@ html, body {
 
 <div class="hero-wrap" id="home">
 	<img src="Aktuell.png" alt="Aurora Surrealis Logo" class="logo-img" />
+	<canvas id="logoCanvas"></canvas>
 	<div class="slogan">
 		Black/Death Metal from Freiburg, Germany.<span class="linebreak"></span>Dark, intense and atmospheric.
 	</div>
@@ -1523,6 +1512,142 @@ modal.addEventListener('click', (e) => {
 		document.body.style.overflow = '';
 	}
 });
+</script>
+
+<script>
+// Logo Canvas – 3D Tilt + lokale Verzerrung
+(function() {
+	const img = document.querySelector('.logo-img');
+	const canvas = document.getElementById('logoCanvas');
+	if (!img || !canvas) return;
+
+	const ctx = canvas.getContext('2d');
+	let w, h;
+	let mouse = { x: -9999, y: -9999 };
+	let imgLoaded = false;
+
+	// Bild laden
+	const logoImage = new Image();
+	logoImage.src = img.src;
+	logoImage.onload = () => {
+		imgLoaded = true;
+		resize();
+		draw();
+	};
+
+	function resize() {
+		// Größe an das Originalbild anpassen
+		const maxWidth = Math.min(800, window.innerWidth * 0.86);
+		const ratio = logoImage.naturalHeight / logoImage.naturalWidth;
+		w = maxWidth;
+		h = maxWidth * ratio;
+
+		canvas.width = w;
+		canvas.height = h;
+		canvas.style.width = w + 'px';
+		canvas.style.height = h + 'px';
+	}
+
+	window.addEventListener('resize', () => {
+		if (imgLoaded) {
+			resize();
+			draw();
+		}
+	});
+
+	// Mausposition relativ zum Canvas
+	canvas.addEventListener('mousemove', (e) => {
+		const rect = canvas.getBoundingClientRect();
+		mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width);
+		mouse.y = (e.clientY - rect.top) * (canvas.height / rect.height);
+		draw();
+	});
+
+	canvas.addEventListener('mouseleave', () => {
+		mouse.x = -9999;
+		mouse.y = -9999;
+		draw();
+	});
+
+	function draw() {
+		if (!imgLoaded) return;
+
+		ctx.clearRect(0, 0, w, h);
+
+		// --- 3D Tilt berechnen ---
+		const rect = canvas.getBoundingClientRect();
+		const centerX = rect.left + rect.width / 2;
+		const centerY = rect.top + rect.height / 2;
+		const mx = (mouse.x >= 0) ? (mouse.x / w - 0.5) * 2 : 0;
+		const my = (mouse.y >= 0) ? (mouse.y / h - 0.5) * 2 : 0;
+
+		const rotateY = mx * 11;
+		const rotateX = -my * 11;
+		const scale = 1 + (Math.abs(mx) + Math.abs(my)) * 0.02;
+
+		canvas.style.transform = `
+			perspective(900px)
+			rotateX(${rotateX}deg)
+			rotateY(${rotateY}deg)
+			scale(${scale})
+		`;
+
+		// --- Lokale Verzerrung zeichnen ---
+		const radius = 140;          // Größe des Verzerrungsbereichs
+		const strength = 28;         // Stärke der Verzerrung
+
+		// Wenn Maus weit weg ist → normal zeichnen
+		if (mouse.x < -100) {
+			ctx.drawImage(logoImage, 0, 0, w, h);
+			return;
+		}
+
+		// Pixel für Pixel (vereinfachte aber performante Version)
+		const tempCanvas = document.createElement('canvas');
+		tempCanvas.width = w;
+		tempCanvas.height = h;
+		const tempCtx = tempCanvas.getContext('2d');
+		tempCtx.drawImage(logoImage, 0, 0, w, h);
+
+		const imageData = tempCtx.getImageData(0, 0, w, h);
+		const data = imageData.data;
+		const output = ctx.createImageData(w, h);
+		const out = output.data;
+
+		for (let y = 0; y < h; y++) {
+			for (let x = 0; x < w; x++) {
+				const dx = x - mouse.x;
+				const dy = y - mouse.y;
+				const dist = Math.sqrt(dx * dx + dy * dy);
+
+				let srcX = x;
+				let srcY = y;
+
+				if (dist < radius) {
+					const amount = (1 - dist / radius);
+					const angle = Math.atan2(dy, dx);
+					const pull = amount * amount * strength;
+
+					srcX = x - Math.cos(angle) * pull;
+					srcY = y - Math.sin(angle) * pull;
+				}
+
+				srcX = Math.max(0, Math.min(w - 1, srcX));
+				srcY = Math.max(0, Math.min(h - 1, srcY));
+
+				const srcIndex = (Math.floor(srcY) * w + Math.floor(srcX)) * 4;
+				const destIndex = (y * w + x) * 4;
+
+				out[destIndex]     = data[srcIndex];
+				out[destIndex + 1] = data[srcIndex + 1];
+				out[destIndex + 2] = data[srcIndex + 2];
+				out[destIndex + 3] = data[srcIndex + 3];
+			}
+		}
+
+		ctx.putImageData(output, 0, 0);
+	}
+})();
 </script>
 	
 </body>
